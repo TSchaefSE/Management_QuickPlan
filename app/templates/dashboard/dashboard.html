@@ -1,0 +1,60 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Dashboard | Management QuickPlan{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h2>Dashboard & Summary Reporting</h2>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Requirements</h3>
+            <p class="stat-value">14</p>  <!-- PLACEHOLDER -->
+        </div>
+
+        <div class="stat-card">
+            <h3>Completed</h3>
+            <p class="stat-value">9</p> <!-- PLACEHOLDER -->
+        </div>
+
+        <div class="stat-card">
+            <h3>Hours Logged</h3>
+            <p class="stat-value">127.5</p> <!-- PLACEHOLDER -->
+        </div>
+
+        <div class="stat-card">
+            <h3>Open Risks</h3>
+            <p class="stat-value">3</p> <!-- PLACEHOLDER -->
+        </div>
+    </div>
+
+    <!-- Main Panels -->
+    <div class="dashboard-panels">
+
+        <!-- Chart -->
+        <div class="panel chart-panel">
+            <h3>Hours by Development Phase</h3>
+            <div class="chart-placeholder">
+                Chart goes here
+            </div>
+        </div>
+
+        <!-- Activity -->
+        <div class="panel activity-panel">
+            <h3>Recent Activity</h3>
+            <ul class="activity-list">
+                <li>Updated requirement FR-3</li> <!-- PLACEHOLDER -->
+                <li>Logged 4 hours to Implementation</li> <!-- PLACEHOLDER -->
+                <li>Added new project risk</li> <!-- PLACEHOLDER -->
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
