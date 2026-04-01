@@ -1,2 +1,2 @@
-
-risk_id,risk_description,impact,likelihood,mitigation,status
+id,project_id,risk_name,risk_priority,risk_status
+1,1,Test Risk,Low,Open
