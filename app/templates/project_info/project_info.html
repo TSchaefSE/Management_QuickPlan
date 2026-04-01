@@ -1,10 +1,128 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout/base.html" %}
 
-</body>
-</html>
+{% block title %}Project Info | Management QuickPlan{% endblock %}
+
+{% block content %}
+<div class="project-info-container">
+    <form method="POST" class="project-info-form">
+
+        <!-- Top Row -->
+        <div class="form-row two-column">
+            <div class="form-group">
+                <label for="project_name">Project Title</label>
+                <input
+                    type="text"
+                    id="project_name"
+                    name="project_name"
+                    value="{{ project.project_name if project else '' }}"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="owner">Product Owner</label>
+                <input
+                    type="text"
+                    id="owner"
+                    name="owner"
+                    value="{{ project.owner if project else '' }}"
+                >
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-row">
+            <div class="form-group full-width">
+                <label for="description">Project Description</label>
+                <textarea id="description" name="description" rows="4">{{ project.description if project else '' }}</textarea>
+            </div>
+        </div>
+
+        <!-- Team Members -->
+        <section class="info-section">
+            <div class="section-header">
+                <h2>Team Members</h2>
+                <button type="button" class="section-btn" onclick="addMemberRow()">Add Member</button>
+            </div>
+
+            <div id="team-members-list" class="dynamic-list">
+                {% if members %}
+                    {% for member in members %}
+                    <div class="member-row">
+                        <input type="text" name="member_name[]" placeholder="Name" value="{{ member.member_name }}">
+                        <input type="text" name="member_role[]" placeholder="Role" value="{{ member.member_role }}">
+                        <input type="email" name="member_email[]" placeholder="Email" value="{{ member.member_email }}">
+                        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="member-row">
+                        <input type="text" name="member_name[]" placeholder="Name">
+                        <input type="text" name="member_role[]" placeholder="Role">
+                        <input type="email" name="member_email[]" placeholder="Email">
+                        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Risks -->
+        <section class="info-section">
+            <div class="section-header">
+                <h2>Projected Risks</h2>
+                <button type="button" class="section-btn" onclick="addRiskRow()">Add Risk</button>
+            </div>
+
+            <div id="risks-list" class="dynamic-list">
+                {% if risks %}
+                    {% for risk in risks %}
+                    <div class="risk-row">
+                        <input type="text" name="risk_name[]" placeholder="Risk Name" value="{{ risk.risk_name }}">
+
+                        <select name="risk_priority[]">
+                            <option value="Low" {% if risk.risk_priority == "Low" %}selected{% endif %}>Low</option>
+                            <option value="Medium" {% if risk.risk_priority == "Medium" %}selected{% endif %}>Medium</option>
+                            <option value="High" {% if risk.risk_priority == "High" %}selected{% endif %}>High</option>
+                        </select>
+
+                        <select name="risk_status[]">
+                            <option value="Open" {% if risk.risk_status == "Open" %}selected{% endif %}>Open</option>
+                            <option value="Mitigated" {% if risk.risk_status == "Mitigated" %}selected{% endif %}>Mitigated</option>
+                            <option value="Closed" {% if risk.risk_status == "Closed" %}selected{% endif %}>Closed</option>
+                        </select>
+
+                        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="risk-row">
+                        <input type="text" name="risk_name[]" placeholder="Risk Name">
+
+                        <select name="risk_priority[]">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+
+                        <select name="risk_status[]">
+                            <option value="Open">Open</option>
+                            <option value="Mitigated">Mitigated</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+
+                        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Bottom Buttons -->
+        <div class="form-actions">
+            <button type="button" class="secondary-btn">Cancel</button>
+            <button type="submit" class="primary-btn">Save Changes</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/project_info.js') }}"></script>
+{% endblock %}

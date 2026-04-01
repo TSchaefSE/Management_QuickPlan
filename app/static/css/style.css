@@ -236,3 +236,227 @@ body {
 .activity-list li:last-child {
     border-bottom: none;
 }
+
+
+/* =========================
+   Project Info Page
+========================= */
+.project-info-container {
+    width: 100%;
+}
+
+.project-info-form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #23324d;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 15px;
+    background: white;
+    color: #111827;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #111827;
+}
+
+.section-btn {
+    background: #334766;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.section-btn:hover {
+    background: #243252;
+}
+
+.table-card {
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.info-table th,
+.info-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.info-table th {
+    background: #f1f5f9;
+    font-size: 14px;
+    font-weight: 700;
+    color: #23324d;
+}
+
+.info-table td {
+    font-size: 15px;
+    color: #111827;
+}
+
+.info-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.remove-link {
+    color: #dc2626;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.remove-link:hover {
+    text-decoration: underline;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.secondary-btn,
+.primary-btn {
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.secondary-btn {
+    background: white;
+    border: 1px solid #cbd5e1;
+    color: #23324d;
+}
+
+.primary-btn {
+    background: #334766;
+    border: none;
+    color: white;
+}
+
+.primary-btn:hover {
+    background: #243252;
+}
+
+/* =========================
+   Dynamic Team Member List
+========================= */
+.dynamic-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.member-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.member-row input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 14px;
+    background: white;
+}
+
+.remove-btn {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    background: #dc2626;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.remove-btn:hover {
+    background: #b91c1c;
+}
+
+/* =========================
+   Dynamic Risk List
+========================= */
+.risk-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.risk-row input,
+.risk-row select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 14px;
+    background: white;
+}
