@@ -1,0 +1,238 @@
+
+/* =========================
+   Global / Page Defaults
+========================= */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+/* =========================
+   Main Application Layout
+========================= */
+.app-body {
+    display: flex;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background: #f9fafb;
+}
+
+
+/* =========================
+   Top Navigation Bar
+========================= */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 20px;
+    background: #111827;
+    color: white;
+}
+
+/* Left side of topbar: title + project selector */
+.topbar-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+/* Right side of topbar: user/logout links */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* App title */
+.branding h1 {
+    margin: 0;
+    font-size: 48px;
+}
+
+/* Project selector group */
+.project-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 200px;
+}
+
+.project-switcher label {
+    font-size: 13px;
+    color: #d1d5db;
+}
+
+#project-select {
+    padding: 4px 6px;
+    font-size: 13px;
+    width: 100%;
+    color: #d1d5db;
+    background-color: #243252;
+}
+
+.topbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 8px 14px;
+    background: #243252;
+    color: #e5e7eb;
+
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.topbar-btn i {
+    font-size: 18px;
+}
+
+.topbar-btn:hover {
+    background: #374151;
+    color: white;
+}
+
+
+/* =========================
+   Sidebar Navigation
+========================= */
+.sidebar {
+    width: 220px;
+    background: #eef2f7;
+    padding: 14px 12px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #ffffff;
+    color: #23324d;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    box-sizing: border-box;
+}
+
+.sidebar .nav-item i {
+    font-size: 14px;
+    width: 18px;
+    text-align: center;
+}
+
+.sidebar .nav-item:hover {
+    background: #e6ebf2;
+}
+
+.nav-item.active {
+    background: #1f2c46;
+    color: white;
+    font-weight: 600;
+    border-left: none;
+}
+
+
+/* =========================
+   Dashboard Page Layout
+========================= */
+.dashboard-container {
+    width: 100%;
+}
+
+.dashboard-header {
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   Dashboard Summary Cards
+========================= */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card h3 {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #111827;
+}
+
+
+/* =========================
+   Dashboard Panels
+========================= */
+.dashboard-panels {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================
+   Chart Placeholder
+========================= */
+.chart-placeholder {
+    height: 250px;
+    background: #e5e7eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================
+   Activity List
+========================= */
+.activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.activity-list li:last-child {
+    border-bottom: none;
+}

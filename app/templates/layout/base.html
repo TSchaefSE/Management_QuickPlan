@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Management QuickPlan{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="topbar-left">
+                <div class="branding">
+                    <h1>Management QuickPlan</h1>
+                </div>
+
+                <div class="project-switcher">
+                    <label for="project-select">Project:</label>
+                    <select id="project-select" name="project">
+                        <option value="quickplan">QuickPlan</option> <!-- Update from CSV later -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <a href="#" class="topbar-btn">
+                    <i class="fa-solid fa-user"></i> User
+                </a>
+                <a href="#" class="topbar-btn logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <a href="{{ url_for('main.dashboard') }}"
+                       class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">
+                        <i class="fa-solid fa-table-columns"></i>
+                        <span>Dashboard</span>
+                    </a>
+
+                    <a href="#" class="nav-item">
+                        <i class="fa-regular fa-folder"></i>
+                        <span>Project Info</span>
+                    </a>
+
+                    <a href="#" class="nav-item">
+                        <i class="fa-regular fa-clock"></i>
+                        <span>Effort Log</span>
+                    </a>
+
+                    <a href="#" class="nav-item">
+                        <i class="fa-regular fa-file-lines"></i>
+                        <span>Requirements</span>
+                    </a>
+
+                    <a href="#" class="nav-item">
+                        <i class="fa-solid fa-chart-column"></i>
+                        <span>Reports</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <main class="main-content">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>
