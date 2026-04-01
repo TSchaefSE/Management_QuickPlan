@@ -127,7 +127,12 @@ The project is now ready to proceed into:
 - Configured virtual environment
 - Installed Flask and Pandas
 - Implemented initial Flask app
+- Created reusable base template with top navigation bar and sidebar
+- Designed and implemented initial dashboard interface aligned with UI Mockups (See Dashboard_Summary_View.png)
+- Established foundational CSS structure for layout and components
 
 **Notes:**
 - Application successfully runs locally
+- Base UI structure in place and rendering correctly 
+- No data persistence or backend integration has been implemented yet
 - Awaiting confirmation from team members regarding successful environment setup
