@@ -102,3 +102,59 @@ def effort_logs():
         active_page="effort_logs",
         logs=[]
     )
+
+@main.route("/requirements", methods=["GET", "POST"])
+def requirements():
+    if request.method == "POST":
+        requirement_id = request.form.get("requirement_id")
+        requirement_type = request.form.get("requirement_type")
+        priority = request.form.get("priority")
+        status = request.form.get("status")
+        title = request.form.get("title")
+        description = request.form.get("description")
+
+        ### save to CSV here ###
+
+        # TEMP FOR TESTING
+        print("Requirement submitted:")
+        print("ID:", requirement_id)
+        print("Type:", requirement_type)
+        print("Priority:", priority)
+        print("Status:", status)
+        print("Title:", title)
+        print("Description:", description)
+
+        return redirect(url_for("main.requirements"))
+
+    return render_template(
+        "requirements/requirements.html",
+        active_page="requirements",
+        requirements=[]
+    )
+
+@main.route("/reports", methods=["GET"])
+def reports():
+    start_date = request.args.get("start_date")
+    end_date = request.args.get("end_date")
+    phase = request.args.get("phase")
+    member = request.args.get("member")
+    requirement = request.args.get("requirement")
+
+    print("Reports filters:")
+    print("Start Date:", start_date)
+    print("End Date:", end_date)
+    print("Phase:", phase)
+    print("Member:", member)
+    print("Requirement:", requirement)
+
+    return render_template(
+        "reports/reports.html",
+        active_page="reports",
+        summary={
+            "total_hours": 127.5,
+            "avg_hours_per_day": 8.5,
+            "active_members": 4
+        },
+        breakdown=[],
+        chart_data=[]
+    )

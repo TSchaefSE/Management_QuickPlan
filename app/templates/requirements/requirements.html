@@ -1,0 +1,100 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Requirements | Management QuickPlan{% endblock %}
+
+{% block content %}
+<div class="requirements-container">
+
+  <h2>Requirements Input</h2>
+
+  <form method="POST"
+        action="{{ url_for('main.requirements') }}"
+        class="requirements-form">
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="requirement_id">Requirement ID</label>
+        <input type="text" id="requirement_id" name="requirement_id" placeholder="Enter requirement ID" required>
+      </div>
+
+      <div class="form-group">
+        <label for="requirement_type">Type</label>
+        <select id="requirement_type" name="requirement_type" required>
+          <option value="">Select type</option>
+          <option value="Functional">Functional</option>
+          <option value="Non-Functional">Non-Functional</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="priority">Priority</label>
+        <select id="priority" name="priority" required>
+          <option value="">Select priority</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
+          <option value="">Select status</option>
+          <option value="Proposed">Proposed</option>
+          <option value="Active">Active</option>
+          <option value="Completed">Completed</option>
+          <option value="Deferred">Deferred</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group full-width">
+        <label for="title">Requirement Title</label>
+        <input type="text" id="title" name="title" placeholder="Enter requirement title" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group full-width">
+        <label for="description">Requirement Description</label>
+        <textarea id="description" name="description" rows="6" placeholder="Enter requirement description" required></textarea>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="reset" class="secondary-btn">Clear</button>
+      <button type="submit" class="primary-btn">Add</button>
+    </div>
+  </form>
+
+  <h3>Requirements List</h3>
+
+  <table class="requirements-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for req in requirements %}
+      <tr>
+        <td>{{ req.requirement_id }}</td>
+        <td>{{ req.requirement_type }}</td>
+        <td>{{ req.priority }}</td>
+        <td>{{ req.status }}</td>
+        <td>
+          <a href="#">Edit</a>
+          <a href="#">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}

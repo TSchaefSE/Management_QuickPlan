@@ -1,0 +1,183 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Reports | Management QuickPlan{% endblock %}
+
+{% block content %}
+<div class="reports-container">
+
+  <h2>Reports</h2>
+
+  <form method="GET"
+        action="{{ url_for('main.reports') }}"
+        class="reports-filter-form">
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="start_date">Start Date</label>
+        <input type="date" id="start_date" name="start_date" value="{{ request.args.get('start_date', '') }}">
+      </div>
+
+      <div class="form-group">
+        <label for="end_date">End Date</label>
+        <input type="date" id="end_date" name="end_date" value="{{ request.args.get('end_date', '') }}">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="phase">Project Phase</label>
+        <select id="phase" name="phase">
+          <option value="">All Phases</option>
+          <option value="Planning" {% if request.args.get('phase') == 'Planning' %}selected{% endif %}>Planning</option>
+          <option value="Design" {% if request.args.get('phase') == 'Design' %}selected{% endif %}>Design</option>
+          <option value="Implementation" {% if request.args.get('phase') == 'Implementation' %}selected{% endif %}>Implementation</option>
+          <option value="Testing" {% if request.args.get('phase') == 'Testing' %}selected{% endif %}>Testing</option>
+          <option value="Documentation" {% if request.args.get('phase') == 'Documentation' %}selected{% endif %}>Documentation</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="member">Team Member</label>
+        <select id="member" name="member">
+          <option value="">All Team Members</option>
+          <option value="John Smith" {% if request.args.get('member') == 'John Smith' %}selected{% endif %}>John Smith</option>
+          <option value="Sarah Johnson" {% if request.args.get('member') == 'Sarah Johnson' %}selected{% endif %}>Sarah Johnson</option>
+          <option value="Alex Lee" {% if request.args.get('member') == 'Alex Lee' %}selected{% endif %}>Alex Lee</option>
+          <option value="Taylor Brown" {% if request.args.get('member') == 'Taylor Brown' %}selected{% endif %}>Taylor Brown</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="requirement">Requirement</label>
+        <select id="requirement" name="requirement">
+          <option value="">All Requirements</option>
+          <option value="REQ-001" {% if request.args.get('requirement') == 'REQ-001' %}selected{% endif %}>REQ-001</option>
+          <option value="REQ-002" {% if request.args.get('requirement') == 'REQ-002' %}selected{% endif %}>REQ-002</option>
+          <option value="REQ-003" {% if request.args.get('requirement') == 'REQ-003' %}selected{% endif %}>REQ-003</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="primary-btn">Apply Filters</button>
+      <a href="{{ url_for('main.reports') }}" class="secondary-btn">Clear</a>
+    </div>
+  </form>
+
+  <h3>Summary Metrics</h3>
+
+  <div class="summary-metrics">
+    <div class="metric-card">
+      <p>Total Hours</p>
+      <h3>{{ summary.total_hours }}</h3>
+    </div>
+
+    <div class="metric-card">
+      <p>Avg Hours/Day</p>
+      <h3>{{ summary.avg_hours_per_day }}</h3>
+    </div>
+
+    <div class="metric-card">
+      <p>Active Members</p>
+      <h3>{{ summary.active_members }}</h3>
+    </div>
+  </div>
+
+  <h3>Effort Distribution Report</h3>
+
+  <div class="chart-card">
+    <div class="chart-placeholder">
+
+      <div class="chart-row">
+        <span class="chart-label">Planning</span>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar planning" style="width: 40%;">20</div>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <span class="chart-label">Design</span>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar design" style="width: 50%;">25</div>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <span class="chart-label">Implementation</span>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar implementation" style="width: 100%;">50</div>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <span class="chart-label">Testing</span>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar testing" style="width: 30%;">15</div>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <span class="chart-label">Documentation</span>
+        <div class="chart-bar-wrapper">
+          <div class="chart-bar documentation" style="width: 14%;">7</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <h3>Requirement Effort Breakdown</h3>
+
+  <table class="reports-table">
+    <thead>
+      <tr>
+        <th>Requirement ID</th>
+        <th>Title</th>
+        <th>Hours</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% if breakdown %}
+        {% for item in breakdown %}
+        <tr>
+          <td>{{ item.requirement_id }}</td>
+          <td>{{ item.title }}</td>
+          <td>{{ item.hours }}</td>
+          <td>{{ item.status }}</td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td>REQ-001</td>
+          <td>User Authentication System</td>
+          <td>42.5</td>
+          <td>Completed</td>
+        </tr>
+        <tr>
+          <td>REQ-002</td>
+          <td>Dashboard Implementation</td>
+          <td>35.0</td>
+          <td>In Progress</td>
+        </tr>
+        <tr>
+          <td>REQ-003</td>
+          <td>Database Schema Design</td>
+          <td>28.0</td>
+          <td>Completed</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <h3>Export Options</h3>
+
+  <div class="export-actions">
+    <button type="button" class="primary-btn">Export to CSV</button>
+    <button type="button" class="primary-btn">Export to PDF</button>
+    <button type="button" class="primary-btn">Print Report</button>
+  </div>
+
+</div>
+{% endblock %}
