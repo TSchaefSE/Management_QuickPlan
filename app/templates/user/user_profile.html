@@ -1,0 +1,162 @@
+{% extends "layout/base.html" %}
+
+{% block title %}User Profile | Management QuickPlan{% endblock %}
+
+{% block content %}
+<div class="user-profile-container">
+
+  <h2>User Profile</h2>
+
+  <form method="POST"
+        action="{{ url_for('main.user_profile') }}"
+        class="user-profile-form">
+
+    <div class="profile-card">
+
+      <!-- Profile Picture Section -->
+      <div class="profile-picture-section">
+        <div class="profile-picture-placeholder">
+          <i class="fa-regular fa-user"></i>
+        </div>
+
+        <div class="profile-picture-actions">
+          <h3>Profile Picture</h3>
+          <button type="button" class="primary-btn">Change Photo</button>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Personal Information -->
+      <h3>Personal Information</h3>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="first_name">First Name</label>
+          <input type="text"
+                 id="first_name"
+                 name="first_name"
+                 value="{{ user.first_name if user else '' }}"
+                 placeholder="Enter first name">
+        </div>
+
+        <div class="form-group">
+          <label for="last_name">Last Name</label>
+          <input type="text"
+                 id="last_name"
+                 name="last_name"
+                 value="{{ user.last_name if user else '' }}"
+                 placeholder="Enter last name">
+        </div>
+      </div>
+
+      <div class="form-row single-column">
+        <div class="form-group">
+          <label for="email">
+            <i class="fa-regular fa-envelope"></i>
+            Email Address
+          </label>
+          <input type="email"
+                 id="email"
+                 name="email"
+                 value="{{ user.email if user else '' }}"
+                 placeholder="Enter email address">
+        </div>
+      </div>
+
+      <div class="form-row single-column">
+        <div class="form-group">
+          <label for="phone">
+            <i class="fa-solid fa-phone"></i>
+            Phone Number
+          </label>
+          <input type="text"
+                 id="phone"
+                 name="phone"
+                 value="{{ user.phone if user else '' }}"
+                 placeholder="Enter phone number">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="job_title">
+            <i class="fa-solid fa-briefcase"></i>
+            Job Title
+          </label>
+          <input type="text"
+                 id="job_title"
+                 name="job_title"
+                 value="{{ user.job_title if user else '' }}"
+                 placeholder="Enter job title">
+        </div>
+
+        <div class="form-group">
+          <label for="department">
+            <i class="fa-regular fa-building"></i>
+            Department
+          </label>
+          <input type="text"
+                 id="department"
+                 name="department"
+                 value="{{ user.department if user else '' }}"
+                 placeholder="Enter department">
+        </div>
+      </div>
+
+      <div class="form-row single-column">
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea id="bio"
+                    name="bio"
+                    rows="5"
+                    placeholder="Enter bio">{{ user.bio if user else '' }}</textarea>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Change Password -->
+      <h3>Change Password</h3>
+
+      <div class="form-row single-column">
+        <div class="form-group">
+          <label for="current_password">Current Password</label>
+          <input type="password"
+                 id="current_password"
+                 name="current_password"
+                 placeholder="Enter current password">
+        </div>
+      </div>
+
+      <div class="form-row single-column">
+        <div class="form-group">
+          <label for="new_password">New Password</label>
+          <input type="password"
+                 id="new_password"
+                 name="new_password"
+                 placeholder="Enter new password">
+        </div>
+      </div>
+
+      <div class="form-row single-column">
+        <div class="form-group">
+          <label for="confirm_new_password">Confirm New Password</label>
+          <input type="password"
+                 id="confirm_new_password"
+                 name="confirm_new_password"
+                 placeholder="Confirm new password">
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button type="submit" class="primary-btn">Save Changes</button>
+        <button type="reset" class="secondary-btn">Cancel</button>
+      </div>
+
+    </div>
+  </form>
+
+</div>
+{% endblock %}

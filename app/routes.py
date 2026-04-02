@@ -15,6 +15,39 @@ main = Blueprint("main", __name__)
 def home():
     return redirect(url_for("main.dashboard"))
 
+@main.route("/user", methods=["GET", "POST"])
+def user_profile():
+    if request.method == "POST":
+        first_name = request.form.get("first_name")
+        last_name = request.form.get("last_name")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        job_title = request.form.get("job_title")
+        department = request.form.get("department")
+        bio = request.form.get("bio")
+        current_password = request.form.get("current_password")
+        new_password = request.form.get("new_password")
+        confirm_new_password = request.form.get("confirm_new_password")
+
+        print("user profile submitted:")
+        print(first_name, last_name, email, phone, job_title, department, bio)
+
+        return redirect(url_for("main.user_profile"))
+
+    return render_template(
+        "user/user_profile.html",
+        active_page="user",
+        user={
+            "first_name": "John",
+            "last_name": "Smith",
+            "email": "john.smith@company.com",
+            "phone": "+1 (555) 123-4567",
+            "job_title": "Product Owner",
+            "department": "Product Management",
+            "bio": "Experienced product owner with 8+ years in agile project management and software development."
+        }
+    )
+
 
 @main.route("/dashboard")
 def dashboard():
