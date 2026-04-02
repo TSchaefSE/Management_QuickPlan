@@ -4,7 +4,9 @@
 
 {% block content %}
 <div class="project-info-container">
-    <form method="POST" class="project-info-form">
+    <form method="POST"
+      action="{{ url_for('main.project_info') }}"
+      class="project-info-form">
 
         <!-- Top Row -->
         <div class="form-row two-column">
@@ -55,17 +57,17 @@
                         </tr>
                     </thead>
                     <tbody id="team-members-list">
-                        {% if team_members %}
-                            {% for member in team_members %}
+                        {% if members %}
+                            {% for member in members %}
                             <tr>
                                 <td>
-                                    <input type="text" name="member_name[]" value="{{ member.name }}">
+                                    <input type="text" name="member_name[]" value="{{ member.member_name }}">
                                 </td>
                                 <td>
-                                    <input type="text" name="member_role[]" value="{{ member.role }}">
+                                    <input type="text" name="member_role[]" value="{{ member.member_role }}">
                                 </td>
                                 <td>
-                                    <input type="email" name="member_email[]" value="{{ member.email }}">
+                                    <input type="email" name="member_email[]" value="{{ member.member_email }}">
                                 </td>
                                 <td>
                                     <button type="button" class="remove-link" onclick="removeRow(this)">Remove</button>
@@ -103,29 +105,59 @@
                         </tr>
                     </thead>
                     <tbody id="risks-list">
-                        <tr>
-                            <td><input type="text" name="risk_name[]" placeholder="Risk Name"></td>
+                        {% if risks %}
+                            {% for risk in risks %}
+                            <tr>
+                                <td>
+                                    <input type="text" name="risk_name[]" value="{{ risk.name }}">
+                                </td>
 
-                            <td>
-                                <select name="risk_priority[]">
-                                    <option value="Low">Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
-                                </select>
-                            </td>
+                                <td>
+                                    <select name="risk_priority[]">
+                                        <option value="Low" {% if risk.priority == "Low" %}selected{% endif %}>Low</option>
+                                        <option value="Medium" {% if risk.priority == "Medium" %}selected{% endif %}>Medium</option>
+                                        <option value="High" {% if risk.priority == "High" %}selected{% endif %}>High</option>
+                                    </select>
+                                </td>
 
-                            <td>
-                                <select name="risk_status[]">
-                                    <option value="Open">Open</option>
-                                    <option value="Mitigated">Mitigated</option>
-                                    <option value="Closed">Closed</option>
-                                </select>
-                            </td>
+                                <td>
+                                    <select name="risk_status[]">
+                                        <option value="Open" {% if risk.status == "Open" %}selected{% endif %}>Open</option>
+                                        <option value="Mitigated" {% if risk.status == "Mitigated" %}selected{% endif %}>Mitigated</option>
+                                        <option value="Closed" {% if risk.status == "Closed" %}selected{% endif %}>Closed</option>
+                                    </select>
+                                </td>
 
-                            <td>
-                                <button type="button" class="remove-link" onclick="removeRow(this)">Remove</button>
-                            </td>
-                        </tr>
+                                <td>
+                                    <button type="button" class="remove-link" onclick="removeRow(this)">Remove</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td><input type="text" name="risk_name[]" placeholder="Risk Name"></td>
+
+                                <td>
+                                    <select name="risk_priority[]">
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <select name="risk_status[]">
+                                        <option value="Open">Open</option>
+                                        <option value="Mitigated">Mitigated</option>
+                                        <option value="Closed">Closed</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <button type="button" class="remove-link" onclick="removeRow(this)">Remove</button>
+                                </td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -133,7 +165,7 @@
 
         <!-- Bottom Buttons -->
         <div class="form-actions">
-            <button type="button" class="secondary-btn">Cancel</button>
+            <button type="reset" class="secondary-btn">Cancel</button>
             <button type="submit" class="primary-btn">Save Changes</button>
         </div>
 
