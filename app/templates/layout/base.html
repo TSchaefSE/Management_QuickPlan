@@ -49,7 +49,8 @@
                         <span>Project Info</span>
                     </a>
 
-                    <a href="#" class="nav-item">
+                    <a href="{{ url_for('main.effort_logs') }}"
+                       class="nav-item {% if active_page == 'effort_logs' %}active{% endif %}">
                         <i class="fa-regular fa-clock"></i>
                         <span>Effort Log</span>
                     </a>

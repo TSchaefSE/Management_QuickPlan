@@ -1,0 +1,91 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Effort Logs | Management QuickPlan{% endblock %}
+
+{% block content %}
+<div class="effort-logs-container">
+
+  <h2>Effort Logging</h2>
+
+  <form method="POST"
+        action="{{ url_for('main.effort_logs') }}"
+        class="effort-logs-form">
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="member">Team Member</label>
+        <input type="text" id="member" name="member" placeholder="Enter name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phase">Development Phase</label>
+        <select id="phase" name="phase" required>
+          <option value="">Select Phase</option>
+          <option value="Planning">Planning</option>
+          <option value="Design">Design</option>
+          <option value="Implementation">Implementation</option>
+          <option value="Testing">Testing</option>
+          <option value="Documentation">Documentation</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="hours">Hours Worked</label>
+        <input type="number" id="hours" step="0.1" name="hours" placeholder="Enter hours" required>
+      </div>
+
+      <div class="form-group" style="flex: 2;">
+        <label for="task">Task Description</label>
+        <input type="text" id="task" name="task" placeholder="Enter task description" required>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="reset" class="btn-secondary">Reset</button>
+      <button type="submit" class="btn-primary">Submit Entry</button>
+    </div>
+
+  </form>
+
+  <!-- Total (PLACEHOLDER for now) -->
+  <div class="total-hours-box">
+    <p>Total Logged Hours</p>
+    <h3>0</h3>
+  </div>
+
+  <!-- Table -->
+  <h3>Recent Effort History</h3>
+
+  <table class="effort-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Team Member</th>
+        <th>Phase</th>
+        <th>Hours</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <td>{{ log.date }}</td>
+        <td>{{ log.member }}</td>
+        <td>{{ log.phase }}</td>
+        <td>{{ log.hours }}</td>
+        <td><a href="#">Edit</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}
