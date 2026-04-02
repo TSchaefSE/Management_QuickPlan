@@ -75,3 +75,30 @@ def project_info():
         members=members,
         risks=risks
     )
+
+@main.route("/effort_logs", methods=["GET", "POST"])
+def effort_logs():
+    if request.method == "POST":
+        date = request.form.get("date")
+        member = request.form.get("member")
+        phase = request.form.get("phase")
+        hours = request.form.get("hours")
+        task = request.form.get("task")
+
+        ### save to CSV here ###
+
+        #TEMP FOR TESTING
+        print("Effort log submitted:")
+        print("Date:", date)
+        print("Member:", member)
+        print("Phase:", phase)
+        print("Hours:", hours)
+        print("Task:", task)
+
+        return redirect(url_for("main.effort_logs"))
+
+    return render_template(
+        "effort_logs/effort_logs.html",
+        active_page="effort_logs",
+        logs=[]
+    )
