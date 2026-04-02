@@ -270,7 +270,7 @@ body {
 }
 
 .form-group label {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     color: #23324d;
 }
@@ -282,9 +282,16 @@ body {
     padding: 14px 16px;
     border: 1px solid #cbd5e1;
     border-radius: 12px;
-    font-size: 15px;
-    background: white;
+    background: #ffffff;
     color: #111827;
+    font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #94a3b8;
+    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.15);
 }
 
 .form-group textarea {
@@ -304,70 +311,40 @@ body {
     align-items: center;
 }
 
-.section-header h2 {
+/* Unified header styling */
+.section-header h2,
+.team-members-table th,
+.risks-table th {
     margin: 0;
-    font-size: 20px;
-    color: #111827;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.form-group label,
+.section-header h2,
+.team-members-table th,
+.risks-table th {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
 }
 
 .section-btn {
-    background: #334766;
-    color: white;
+    padding: 10px 18px;
     border: none;
     border-radius: 10px;
-    padding: 10px 18px;
+    background: #334766;
+    color: #ffffff;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.15s ease;
 }
 
 .section-btn:hover {
     background: #243252;
-}
-
-.table-card {
-    background: white;
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.info-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.info-table th,
-.info-table td {
-    padding: 16px;
-    text-align: left;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.info-table th {
-    background: #f1f5f9;
-    font-size: 14px;
-    font-weight: 700;
-    color: #23324d;
-}
-
-.info-table td {
-    font-size: 15px;
-    color: #111827;
-}
-
-.info-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.remove-link {
-    color: #dc2626;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.remove-link:hover {
-    text-decoration: underline;
 }
 
 .form-actions {
@@ -386,77 +363,131 @@ body {
 }
 
 .secondary-btn {
-    background: white;
+    background: #ffffff;
     border: 1px solid #cbd5e1;
     color: #23324d;
+}
+
+.secondary-btn:hover {
+    background: #f8fafc;
 }
 
 .primary-btn {
     background: #334766;
     border: none;
-    color: white;
+    color: #ffffff;
 }
 
 .primary-btn:hover {
     background: #243252;
 }
 
+
 /* =========================
-   Dynamic Team Member List
+   Shared Table Card
 ========================= */
-.dynamic-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.dynamic-list,
+.team-members-card {
+    background: #ffffff;
+    border: 1px solid #dbe3ee;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.member-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 12px;
-    align-items: center;
+
+/* =========================
+   Shared Table Styling
+========================= */
+.team-members-table,
+.risks-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.member-row input {
+.team-members-table thead,
+.risks-table thead {
+    background: #f3f6fa;
+}
+
+.team-members-table th,
+.risks-table th {
+    text-align: left;
+    padding: 14px 16px;
+}
+
+.team-members-table td,
+.risks-table td {
+    padding: 12px 16px;
+    border-top: 1px solid #e5e7eb;
+    vertical-align: middle;
+}
+
+.team-members-table th:last-child,
+.team-members-table td:last-child,
+.risks-table th:last-child,
+.risks-table td:last-child {
+    width: 110px;
+}
+
+
+/* =========================
+   Team Members Table
+========================= */
+.team-members-table input {
     width: 100%;
     box-sizing: border-box;
-    padding: 12px 14px;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    font-size: 14px;
-    background: white;
-}
-
-.remove-btn {
-    padding: 10px 14px;
+    padding: 0;
     border: none;
-    border-radius: 10px;
-    background: #dc2626;
-    color: white;
-    cursor: pointer;
+    outline: none;
+    background: transparent;
+    color: #111827;
     font-size: 14px;
 }
 
-.remove-btn:hover {
-    background: #b91c1c;
+.team-members-table input::placeholder {
+    color: #94a3b8;
 }
+
 
 /* =========================
-   Dynamic Risk List
+   Risks Table
 ========================= */
-.risk-row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr auto;
-    gap: 12px;
-    align-items: center;
+.risks-table input,
+.risks-table select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #111827;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.risk-row input,
-.risk-row select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #cbd5e1;
-    border-radius: 10px;
-    font-size: 14px;
-    background: white;
+.risks-table input:focus,
+.risks-table select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
+
+
+/* =========================
+   Remove Action
+========================= */
+.remove-link {
+    padding: 0;
+    border: none;
+    background: none;
+    color: #dc2626;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.remove-link:hover {
+    text-decoration: underline;
+}
+
+

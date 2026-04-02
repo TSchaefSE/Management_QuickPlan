@@ -44,24 +44,44 @@
                 <button type="button" class="section-btn" onclick="addMemberRow()">Add Member</button>
             </div>
 
-            <div id="team-members-list" class="dynamic-list">
-                {% if members %}
-                    {% for member in members %}
-                    <div class="member-row">
-                        <input type="text" name="member_name[]" placeholder="Name" value="{{ member.member_name }}">
-                        <input type="text" name="member_role[]" placeholder="Role" value="{{ member.member_role }}">
-                        <input type="email" name="member_email[]" placeholder="Email" value="{{ member.member_email }}">
-                        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="member-row">
-                        <input type="text" name="member_name[]" placeholder="Name">
-                        <input type="text" name="member_role[]" placeholder="Role">
-                        <input type="email" name="member_email[]" placeholder="Email">
-                        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
-                    </div>
-                {% endif %}
+            <div class="team-members-card">
+                <table class="team-members-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="team-members-list">
+                        {% if team_members %}
+                            {% for member in team_members %}
+                            <tr>
+                                <td>
+                                    <input type="text" name="member_name[]" value="{{ member.name }}">
+                                </td>
+                                <td>
+                                    <input type="text" name="member_role[]" value="{{ member.role }}">
+                                </td>
+                                <td>
+                                    <input type="email" name="member_email[]" value="{{ member.email }}">
+                                </td>
+                                <td>
+                                    <button type="button" class="remove-link" onclick="removeRow(this)">Remove</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td><input type="text" name="member_name[]" placeholder="Name"></td>
+                                <td><input type="text" name="member_role[]" placeholder="Role"></td>
+                                <td><input type="email" name="member_email[]" placeholder="Email"></td>
+                                <td><button type="button" class="remove-link" onclick="removeRow(this)">Remove</button></td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
             </div>
         </section>
 
@@ -72,46 +92,42 @@
                 <button type="button" class="section-btn" onclick="addRiskRow()">Add Risk</button>
             </div>
 
-            <div id="risks-list" class="dynamic-list">
-                {% if risks %}
-                    {% for risk in risks %}
-                    <div class="risk-row">
-                        <input type="text" name="risk_name[]" placeholder="Risk Name" value="{{ risk.risk_name }}">
+            <div class="dynamic-list">
+                <table class="risks-table">
+                    <thead>
+                        <tr>
+                            <th>Risk Name</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="risks-list">
+                        <tr>
+                            <td><input type="text" name="risk_name[]" placeholder="Risk Name"></td>
 
-                        <select name="risk_priority[]">
-                            <option value="Low" {% if risk.risk_priority == "Low" %}selected{% endif %}>Low</option>
-                            <option value="Medium" {% if risk.risk_priority == "Medium" %}selected{% endif %}>Medium</option>
-                            <option value="High" {% if risk.risk_priority == "High" %}selected{% endif %}>High</option>
-                        </select>
+                            <td>
+                                <select name="risk_priority[]">
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </td>
 
-                        <select name="risk_status[]">
-                            <option value="Open" {% if risk.risk_status == "Open" %}selected{% endif %}>Open</option>
-                            <option value="Mitigated" {% if risk.risk_status == "Mitigated" %}selected{% endif %}>Mitigated</option>
-                            <option value="Closed" {% if risk.risk_status == "Closed" %}selected{% endif %}>Closed</option>
-                        </select>
+                            <td>
+                                <select name="risk_status[]">
+                                    <option value="Open">Open</option>
+                                    <option value="Mitigated">Mitigated</option>
+                                    <option value="Closed">Closed</option>
+                                </select>
+                            </td>
 
-                        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="risk-row">
-                        <input type="text" name="risk_name[]" placeholder="Risk Name">
-
-                        <select name="risk_priority[]">
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                        </select>
-
-                        <select name="risk_status[]">
-                            <option value="Open">Open</option>
-                            <option value="Mitigated">Mitigated</option>
-                            <option value="Closed">Closed</option>
-                        </select>
-
-                        <button type="button" class="remove-btn" onclick="removeRow(this)">Remove</button>
-                    </div>
-                {% endif %}
+                            <td>
+                                <button type="button" class="remove-link" onclick="removeRow(this)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
