@@ -119,20 +119,43 @@ The project is now ready to proceed into:
 ## Week 3 – Contribution Breakdown
 ### April 1, 2026
 
-**Contributor:** Tyler Schaefer
+## Contributor: Tyler Schaefer
 
-**Activities Completed:**
-- Created GitHub repository
-- Set up project folder structure
-- Configured virtual environment
-- Installed Flask and Pandas
-- Implemented initial Flask app
-- Created reusable base template with top navigation bar and sidebar
-- Designed and implemented initial dashboard interface aligned with UI Mockups (See Dashboard_Summary_View.png)
-- Established foundational CSS structure for layout and components
+### Activities Completed
 
-**Notes:**
-- Application successfully runs locally
-- Base UI structure in place and rendering correctly 
-- No data persistence or backend integration has been implemented yet
-- Awaiting confirmation from team members regarding successful environment setup
+- Created GitHub repository and established project structure  
+- Configured virtual environment and installed Flask and Pandas  
+- Implemented core Flask application with Blueprint-based routing  
+- Developed reusable base template with top navigation bar and sidebar  
+
+- Designed and implemented all primary UI screens aligned with mockups:
+  - Dashboard  
+  - Project Information  
+  - Effort Logging  
+  - Requirements Management  
+  - Reports  
+  - User Profile  
+
+- Implemented HTML form structures for data entry across multiple pages  
+
+- Wired GET and POST request handling for:
+  - Effort Logs  
+  - Requirements  
+  - User Profile  
+
+- Implemented GET-based filtering structure for Reports page  
+- Established consistent frontend-backend interaction pattern across the application  
+- Integrated dynamic navigation highlighting using `active_page` context  
+- Verified application routing and page rendering across all views  
+
+---
+
+### Notes
+
+- Application runs successfully with full navigation between all pages  
+- All major UI components and forms are implemented and functional  
+- Backend request handling is operational for all core user interactions  
+- Data persistence (CSV integration) has not yet been implemented  
+- Reports currently use placeholder data and static visualizations  
+- Next phase will focus on integrating CSV-based data storage and enabling dynamic reporting functionality  
+
