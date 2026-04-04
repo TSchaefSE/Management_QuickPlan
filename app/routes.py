@@ -8,6 +8,8 @@ from app.services import (
     load_risks
 )
 
+from .calculations import calculate_total_hours
+
 main = Blueprint("main", __name__)
 
 
@@ -51,9 +53,12 @@ def user_profile():
 
 @main.route("/dashboard")
 def dashboard():
+    total_hours = calculate_total_hours()
+
     return render_template(
         "dashboard/dashboard.html",
-        active_page="dashboard"
+        active_page="dashboard",
+        total_hours=total_hours
     )
 
 

@@ -1,15 +1,42 @@
 import csv
 import os
 
+import pandas as pd
+
 DATA_FOLDER = "data"
 PROJECTS_FILE = os.path.join(DATA_FOLDER, "projects.csv")
 TEAM_MEMBERS_FILE = os.path.join(DATA_FOLDER, "team_members.csv")
 RISKS_FILE = os.path.join(DATA_FOLDER, "risks.csv")
+EFFORT_LOGS_FILE = os.path.join(DATA_FOLDER, "effort_logs.csv")
 
 
 # =========================
 # Ensure Files Exist
 # =========================
+
+def ensure_all_csvs_exist():
+    os.makedirs(DATA_FOLDER, exist_ok=True)
+
+    ensure_effort_logs_csv_exists()
+    ensure_team_members_csv_exists()
+    ensure_projects_csv_exists()
+    ensure_risks_csv_exists()
+
+def ensure_effort_logs_csv_exists():
+    os.makedirs(DATA_FOLDER, exist_ok=True)
+
+    if not os.path.exists(EFFORT_LOGS_FILE) or os.path.getsize(EFFORT_LOGS_FILE) == 0:
+        with open(EFFORT_LOGS_FILE, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow([
+                "log_id",
+                "team_member",
+                "project_phase",
+                "hours_logged",
+                "date",
+                "notes"
+            ])
+
 def ensure_projects_csv_exists():
     os.makedirs(DATA_FOLDER, exist_ok=True)
 
@@ -57,6 +84,32 @@ def ensure_risks_csv_exists():
 # =========================
 # Load Current Project Data
 # =========================
+
+def load_all_csvs():
+    data = {}
+
+    for file in os.listdir(DATA_FOLDER):
+        if file.endswith(".csv"):
+            name = file.replace(".csv", "")
+            path = os.path.join(DATA_FOLDER, file)
+
+            data[name] = pd.read_csv(path)
+
+    return data
+
+
+def load_effort_logs():
+    ensure_effort_logs_csv_exists()
+    logs = []
+
+    with open(EFFORT_LOGS_FILE, mode="r", newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            logs.append(row)
+
+    return logs
+
+
 def load_project_info():
     ensure_projects_csv_exists()
 
