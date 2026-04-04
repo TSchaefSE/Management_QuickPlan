@@ -159,3 +159,45 @@ The project is now ready to proceed into:
 - Reports currently use placeholder data and static visualizations  
 - Next phase will focus on integrating CSV-based data storage and enabling dynamic reporting functionality  
 
+---
+
+### April 4, 2026
+## Contributor: Tyler Schaefer
+
+### Activities Completed
+
+- Implemented CSV-based data persistence for core system components, including requirements and risks
+
+- Developed calculation functions for dashboard metrics, including:
+
+  - Total requirements (unique ID count)
+  - Completed requirements
+  - Open risks
+  - Total effort hours integration
+
+- Refactored calculation logic into a dedicated calculations.py module to improve separation of concerns and maintainability
+
+- Integrated dynamic dashboard metrics into the Flask application using backend calculations
+
+- Ensured data normalization within calculations (handling inconsistent capitalization and whitespace in CSV inputs)
+
+- Created  unit tests for all calculation functions using Python’s unittest framework
+
+#### Validated edge cases through testing, including:
+
+- Missing CSV files
+- Empty datasets
+- Missing columns
+- Duplicate requirement IDs
+- Inconsistent formatting in status fields
+
+Established isolated test environment using temporary directories to prevent interference with production data
+
+Verified all calculation functions through successful execution of 11 unit tests
+
+---
+
+### Notes
+- CSV-based data persistence is now functional for requirements and risks
+- Dashboard now displays real-time, data-driven metrics instead of placeholder values
+- Unit testing framework is fully operational and validates correctness of core system metrics
