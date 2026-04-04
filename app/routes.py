@@ -1,3 +1,6 @@
+import os.path
+
+import pandas as pd
 from flask import Blueprint, render_template, redirect, url_for, request
 from app.services import (
     save_project_info,
@@ -8,7 +11,8 @@ from app.services import (
     load_risks
 )
 
-from .calculations import calculate_total_hours
+from .calculations import calculate_total_hours, calculate_total_requirements, calculate_completed_requirements, \
+    calculate_open_risk_count
 
 main = Blueprint("main", __name__)
 
@@ -53,12 +57,19 @@ def user_profile():
 
 @main.route("/dashboard")
 def dashboard():
+    requirements_count = calculate_total_requirements()
+    completed_requirements = calculate_completed_requirements()
     total_hours = calculate_total_hours()
+    open_risks = calculate_open_risk_count()
 
     return render_template(
         "dashboard/dashboard.html",
-        active_page="dashboard",
-        total_hours=total_hours
+        active_page = "dashboard",
+        requirements_count=requirements_count,
+        completed_requirements = completed_requirements,
+        total_hours = total_hours,
+        open_risks = open_risks
+
     )
 
 
