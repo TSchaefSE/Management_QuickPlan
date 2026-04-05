@@ -208,15 +208,20 @@ body {
 
 
 /* =========================
-   Chart Placeholder
+   Chart Box
 ========================= */
-.chart-placeholder {
-    height: 250px;
-    background: #e5e7eb;
+.chart-body {
+    height: 275px;
+    background: #f9fafb;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#phaseChart {
+    height: 275px !important;
+    width: 100% !important;
 }
 
 /* =========================

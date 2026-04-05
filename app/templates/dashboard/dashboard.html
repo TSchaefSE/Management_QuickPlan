@@ -39,8 +39,8 @@
         <!-- Chart -->
         <div class="panel chart-panel">
             <h3>Hours by Development Phase</h3>
-            <div class="chart-placeholder">
-                Chart goes here
+            <div class="chart-body">
+                <canvas id="phaseChart"></canvas>
             </div>
         </div>
 
@@ -57,4 +57,13 @@
     </div>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const hoursByPhase = {{ hours_by_phase | tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}
