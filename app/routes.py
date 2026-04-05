@@ -12,7 +12,7 @@ from app.services import (
 )
 
 from .calculations import calculate_total_hours, calculate_total_requirements, calculate_completed_requirements, \
-    calculate_open_risk_count
+    calculate_open_risk_count, calculate_hours_by_phase
 
 main = Blueprint("main", __name__)
 
@@ -61,6 +61,7 @@ def dashboard():
     completed_requirements = calculate_completed_requirements()
     total_hours = calculate_total_hours()
     open_risks = calculate_open_risk_count()
+    hours_by_phase = calculate_hours_by_phase()
 
     return render_template(
         "dashboard/dashboard.html",
@@ -68,7 +69,8 @@ def dashboard():
         requirements_count=requirements_count,
         completed_requirements = completed_requirements,
         total_hours = total_hours,
-        open_risks = open_risks
+        open_risks = open_risks,
+        hours_by_phase = hours_by_phase
 
     )
 

@@ -22,6 +22,23 @@ def calculate_total_hours():
 
     return total
 
+def calculate_hours_by_phase():
+    df = pd.read_csv("data/effort_logs.csv")
+
+    valid_phases = ["Planning", "Design", "Implementation", "Testing", "Documentation"]
+
+    df["hours_logged"] = pd.to_numeric(df["hours_logged"], errors="coerce").fillna(0)
+    df = df[df["project_phase"].isin(valid_phases)]
+
+    grouped = df.groupby("project_phase")["hours_logged"].sum().to_dict()
+
+    ordered_result = {}
+    for phase in valid_phases:
+        ordered_result[phase] = grouped.get(phase, 0)
+
+    return ordered_result
+
+
 # =========================
 # Requirements Calculations
 # =========================
