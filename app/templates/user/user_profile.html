@@ -7,8 +7,10 @@
 
   <h2>User Profile</h2>
 
+  <!-- Need enctype to send file for photo-->
   <form method="POST"
         action="{{ url_for('main.user_profile') }}"
+        enctype="multipart/form-data"
         class="user-profile-form">
 
     <div class="profile-card">
@@ -19,9 +21,14 @@
           <i class="fa-regular fa-user"></i>
         </div>
 
-        <div class="profile-picture-actions">
+              <div class="profile-picture-actions">
           <h3>Profile Picture</h3>
-          <button type="button" class="primary-btn">Change Photo</button>
+
+                <input type="file" id="profile_photo" name="profile_photo" class="file-input-hidden">
+
+                <label for="profile_photo" class="primary-btn file-upload-btn">
+            Change Photo
+          </label>
         </div>
       </div>
 
@@ -30,7 +37,7 @@
       <!-- Personal Information -->
       <h3>Personal Information</h3>
 
-      <div class="form-row">
+      <div class="form-row two-column">
         <div class="form-group">
           <label for="first_name">First Name</label>
           <input type="text"
@@ -78,7 +85,7 @@
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="form-row two-column">
         <div class="form-group">
           <label for="job_title">
             <i class="fa-solid fa-briefcase"></i>
@@ -117,7 +124,7 @@
       <hr>
 
       <!-- Change Password -->
-      <h3>Change Password</h3>
+      <h2>Change Password</h2>
 
       <div class="form-row single-column">
         <div class="form-group">
