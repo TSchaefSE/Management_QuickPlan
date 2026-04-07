@@ -138,7 +138,7 @@ def effort_logs():
 
         ### save to CSV here ###
 
-        #TEMP FOR TESTING
+        # TEMP FOR TESTING
         print("Effort log submitted:")
         print("Date:", date)
         print("Member:", member)
@@ -148,10 +148,12 @@ def effort_logs():
 
         return redirect(url_for("main.effort_logs"))
 
+    total_hours = calculate_total_hours()
+
     return render_template(
         "effort_logs/effort_logs.html",
         active_page="effort_logs",
-        logs=[]
+        total_hours=total_hours
     )
 
 @main.route("/requirements", methods=["GET", "POST"])

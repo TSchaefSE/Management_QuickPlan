@@ -149,6 +149,160 @@ body {
 
 
 /* =========================
+   User Profile Layout
+========================= */
+.user-profile-container {
+    max-width: 780px;
+    width: 100%;
+    padding: 10px 0 30px;
+}
+
+.user-profile-container h2 {
+    margin: 0 0 22px 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.user-profile-form {
+    width: 100%;
+}
+
+.profile-picture-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.profile-picture-placeholder {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: #e9eef5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.profile-picture-placeholder i {
+    font-size: 42px;
+    color: #64748b;
+}
+
+.profile-picture-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.profile-picture-actions h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.file-upload-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.form-row.single-column {
+    grid-template-columns: 1fr;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #111827;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #94a3b8;
+    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.15);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background: #1f2c46;
+    border: none;
+    color: #ffffff;
+}
+
+.primary-btn:hover {
+    background: #243252;
+}
+
+.secondary-btn {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #23324d;
+}
+
+.secondary-btn:hover {
+    background: #f8fafc;
+}
+
+/* =========================
    Dashboard Page Layout
 ========================= */
 .dashboard-container {
@@ -495,4 +649,155 @@ body {
     text-decoration: underline;
 }
 
+/* =========================
+   Effort Logging
+========================= */
+.effort-logs-container {
+    width: 100%;
+    max-width: 1150px;
+}
+
+.effort-logs-container h2 {
+    margin: 0 0 22px 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.effort-logs-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 34px;
+}
+
+.effort-row {
+    display: grid;
+    gap: 22px;
+}
+
+.effort-row-three {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.effort-row-hours-task {
+    grid-template-columns: 0.38fr 1.62fr;
+}
+
+.effort-row .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.effort-row .form-group label {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #23324d;
+}
+
+.effort-row .form-group input,
+.effort-row .form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #111827;
+    font-size: 15px;
+}
+
+.effort-row .form-group input:focus,
+.effort-row .form-group select:focus {
+    outline: none;
+    border-color: #94a3b8;
+    box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.15);
+}
+
+.effort-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-top: 4px;
+}
+
+.total-hours-box {
+    min-width: 185px;
+    padding: 18px 22px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.total-hours-box p {
+    margin: 0 0 10px 0;
+    font-size: 15px;
+    color: #334155;
+}
+
+.total-hours-box h3 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2c46;
+}
+
+.effort-logs-form .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin: 0;
+}
+
+.effort-history-title {
+    margin: 8px 0 22px 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.effort-table-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.effort-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.effort-table thead {
+    background: #f1f5f9;
+}
+
+.effort-table th {
+    text-align: left;
+    padding: 16px 18px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1f2c46;
+}
+
+.effort-table td {
+    padding: 14px 18px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 15px;
+    color: #111827;
+}
+
+.effort-table td:last-child a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.effort-table td:last-child a:hover {
+    text-decoration: underline;
+}
 
