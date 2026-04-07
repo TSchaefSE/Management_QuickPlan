@@ -192,6 +192,7 @@ def reports():
     phase = request.args.get("phase")
     member = request.args.get("member")
     requirement = request.args.get("requirement")
+    hours_by_phase = calculate_hours_by_phase()
 
     print("Reports filters:")
     print("Start Date:", start_date)
@@ -203,11 +204,7 @@ def reports():
     return render_template(
         "reports/reports.html",
         active_page="reports",
-        summary={
-            "total_hours": 127.5,
-            "avg_hours_per_day": 8.5,
-            "active_members": 4
-        },
+        summary={...},
         breakdown=[],
-        chart_data=[]
+        hours_by_phase=hours_by_phase
     )

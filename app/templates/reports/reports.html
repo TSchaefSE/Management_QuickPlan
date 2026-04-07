@@ -85,44 +85,10 @@
 
   <h3>Effort Distribution Report</h3>
 
-  <div class="chart-card">
-    <div class="chart-placeholder">
-
-      <div class="chart-row">
-        <span class="chart-label">Planning</span>
-        <div class="chart-bar-wrapper">
-          <div class="chart-bar planning" style="width: 40%;">20</div>
-        </div>
-      </div>
-
-      <div class="chart-row">
-        <span class="chart-label">Design</span>
-        <div class="chart-bar-wrapper">
-          <div class="chart-bar design" style="width: 50%;">25</div>
-        </div>
-      </div>
-
-      <div class="chart-row">
-        <span class="chart-label">Implementation</span>
-        <div class="chart-bar-wrapper">
-          <div class="chart-bar implementation" style="width: 100%;">50</div>
-        </div>
-      </div>
-
-      <div class="chart-row">
-        <span class="chart-label">Testing</span>
-        <div class="chart-bar-wrapper">
-          <div class="chart-bar testing" style="width: 30%;">15</div>
-        </div>
-      </div>
-
-      <div class="chart-row">
-        <span class="chart-label">Documentation</span>
-        <div class="chart-bar-wrapper">
-          <div class="chart-bar documentation" style="width: 14%;">7</div>
-        </div>
-      </div>
-
+  <div class="panel chart-panel">
+    <h3>Hours by Development Phase</h3>
+    <div class="chart-body">
+      <canvas id="phaseChart"></canvas>
     </div>
   </div>
 
@@ -180,4 +146,13 @@
   </div>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const hoursByPhase = {{ hours_by_phase | tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script> <!-- REUSES DASHBOARD MAY NEED TO CHANGE -->
 {% endblock %}
