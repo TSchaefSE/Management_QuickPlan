@@ -1,4 +1,4 @@
-requirement_id,project_id,requirement_type,description,status,priority
+log_id,project_id,requirement_id,team_member,project_phase,hours_logged,date,notes
 R1,1,functional,User can create a project,pending,high
 R2,1,non-functional,System loads within 2 seconds,pending,medium
 R3,1,functional,User can log effort entries,pending,high
