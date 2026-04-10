@@ -1,4 +1,6 @@
 log_id,project_id,requirement_id,team_member,project_phase,hours_logged,date,notes
-R1,1,functional,User can create a project,pending,high
-R2,1,non-functional,System loads within 2 seconds,pending,medium
-R3,1,functional,User can log effort entries,pending,high
+1,1,,Alice,Planning,3,2026-04-01,Initial project planning
+2,1,,Bob,Design,5,2026-04-02,Created system architecture
+3,1,,Charlie,Implementation,8,2026-04-03,Developed core features
+4,1,,Diana,Testing,4,2026-04-04,Performed unit testing
+5,1,,Evan,Documentation,2,2026-04-05,Wrote project documentation
