@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Management QuickPlan</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #f4f6f8;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .login-card h2 {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #2f4f6f;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3d6a94;
+        }
+
+        .login-logo {
+            width: 300px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+
+    <img src="{{ url_for('static', filename='images/QuickPlan_logo.png') }}"
+         alt="QuickPlan Logo"
+         class="login-logo">
+
+    <h2>Select User</h2>
+
+    <form method="POST" action="{{ url_for('main.login') }}">
+        <div class="form-group">
+            <label for="user_id">User</label>
+            <select name="user_id" id="user_id" required>
+                <option value="">-- Select User --</option>
+                {% for user in users %}
+                    <option value="{{ user.user_id }}">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+</body>
+</html>
