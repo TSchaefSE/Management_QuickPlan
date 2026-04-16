@@ -1,0 +1,3 @@
+user_id,first_name,last_name,email,phone_number,job_title,department,bio,profile_picture
+1,John,Smith,john.smith@company.com,15551234567,Project Manager,Product Management,Experienced product owner with 8+ years in agile project management and software development.,images/John_Smith_Profile_Picture.png
+2,Suzanne,Que,que@company.com,15559876541,Developer,Quality Assurance,"Experienced developer with a strong background in agile methodologies, team leadership, and delivering high-quality software solutions on time and within scope",images/Suzanne_Que_Profile_Picture.png

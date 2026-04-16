@@ -18,14 +18,18 @@
       <!-- Profile Picture Section -->
       <div class="profile-picture-section">
         <div class="profile-picture-placeholder">
-          <i class="fa-regular fa-user"></i>
+          {% if user and user.profile_picture %}
+            <img src="{{ url_for('static', filename=user.profile_picture) }}"
+                  alt="Profile Picture"
+                  class="profile-picture-img">
+          {% else %}
+            <i class="fa-regular fa-user"></i>
+          {% endif %}
         </div>
 
-              <div class="profile-picture-actions">
+        <div class="profile-picture-actions">
           <h3>Profile Picture</h3>
-
                 <input type="file" id="profile_photo" name="profile_photo" class="file-input-hidden">
-
                 <label for="profile_photo" class="primary-btn file-upload-btn">
             Change Photo
           </label>
@@ -79,8 +83,8 @@
           </label>
           <input type="text"
                  id="phone"
-                 name="phone"
-                 value="{{ user.phone if user else '' }}"
+                 name="phone_number"
+                 value="{{ user.phone_number if user else '' }}"
                  placeholder="Enter phone number">
         </div>
       </div>
@@ -122,39 +126,6 @@
       </div>
 
       <hr>
-
-      <!-- Change Password -->
-      <h2>Change Password</h2>
-
-      <div class="form-row single-column">
-        <div class="form-group">
-          <label for="current_password">Current Password</label>
-          <input type="password"
-                 id="current_password"
-                 name="current_password"
-                 placeholder="Enter current password">
-        </div>
-      </div>
-
-      <div class="form-row single-column">
-        <div class="form-group">
-          <label for="new_password">New Password</label>
-          <input type="password"
-                 id="new_password"
-                 name="new_password"
-                 placeholder="Enter new password">
-        </div>
-      </div>
-
-      <div class="form-row single-column">
-        <div class="form-group">
-          <label for="confirm_new_password">Confirm New Password</label>
-          <input type="password"
-                 id="confirm_new_password"
-                 name="confirm_new_password"
-                 placeholder="Confirm new password">
-        </div>
-      </div>
 
       <!-- Actions -->
       <div class="form-actions">

@@ -1,14 +1,17 @@
 import os.path
 
 import pandas as pd
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, session
 from app.services import (
     save_project_info,
     save_team_members,
     save_risks,
     load_project_info,
     load_team_members,
-    load_risks
+    load_risks,
+    load_users,
+    update_user,
+    get_user_by_id
 )
 
 from .calculations import calculate_total_hours, calculate_total_requirements, calculate_completed_requirements, \
@@ -19,44 +22,70 @@ main = Blueprint("main", __name__)
 
 @main.route("/")
 def home():
-    return redirect(url_for("main.dashboard"))
+    return redirect(url_for("main.login"))
+
+@main.route("/login", methods=["GET", "POST"])
+def login():
+    users = load_users()
+
+    if request.method == "POST":
+        selected_user_id = request.form.get("user_id")
+
+        user = get_user_by_id(selected_user_id)
+
+        if user:
+            session["user_id"] = user["user_id"]
+            return redirect(url_for("main.dashboard"))
+
+    return render_template("login/login.html", users=users)
+
+@main.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("main.login"))
 
 @main.route("/user", methods=["GET", "POST"])
 def user_profile():
-    if request.method == "POST":
-        first_name = request.form.get("first_name")
-        last_name = request.form.get("last_name")
-        email = request.form.get("email")
-        phone = request.form.get("phone")
-        job_title = request.form.get("job_title")
-        department = request.form.get("department")
-        bio = request.form.get("bio")
-        current_password = request.form.get("current_password")
-        new_password = request.form.get("new_password")
-        confirm_new_password = request.form.get("confirm_new_password")
+    user_id = session.get("user_id")
 
-        print("user profile submitted:")
-        print(first_name, last_name, email, phone, job_title, department, bio)
+    if not user_id:
+        return redirect(url_for("main.login"))
+
+    user = get_user_by_id(user_id)
+
+    if not user:
+        session.pop("user_id", None)
+        return redirect(url_for("main.login"))
+
+    if request.method == "POST":
+        updated_user = {
+            "user_id": user_id,
+            "first_name": request.form.get("first_name", "").strip(),
+            "last_name": request.form.get("last_name", "").strip(),
+            "email": request.form.get("email", "").strip(),
+            "phone_number": request.form.get("phone_number", "").strip(),
+            "job_title": request.form.get("job_title", "").strip(),
+            "department": request.form.get("department", "").strip(),
+            "bio": request.form.get("bio", "").strip(),
+            "profile_picture": user["profile_picture"]
+        }
+
+        update_user(updated_user)
 
         return redirect(url_for("main.user_profile"))
 
     return render_template(
         "user/user_profile.html",
         active_page="user",
-        user={
-            "first_name": "John",
-            "last_name": "Smith",
-            "email": "john.smith@company.com",
-            "phone": "+1 (555) 123-4567",
-            "job_title": "Product Owner",
-            "department": "Product Management",
-            "bio": "Experienced product owner with 8+ years in agile project management and software development."
-        }
+        user=user
     )
 
 
 @main.route("/dashboard")
 def dashboard():
+    if "user_id" not in session:
+        return redirect(url_for("main.login"))
+
     requirements_count = calculate_total_requirements()
     completed_requirements = calculate_completed_requirements()
     total_hours = calculate_total_hours()
@@ -65,13 +94,12 @@ def dashboard():
 
     return render_template(
         "dashboard/dashboard.html",
-        active_page = "dashboard",
+        active_page="dashboard",
         requirements_count=requirements_count,
-        completed_requirements = completed_requirements,
-        total_hours = total_hours,
-        open_risks = open_risks,
-        hours_by_phase = hours_by_phase
-
+        completed_requirements=completed_requirements,
+        total_hours=total_hours,
+        open_risks=open_risks,
+        hours_by_phase=hours_by_phase
     )
 
 

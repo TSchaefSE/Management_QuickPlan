@@ -28,7 +28,7 @@
                 <a href="{{ url_for('main.user_profile') }}" class="topbar-btn">
                     <i class="fa-solid fa-user"></i> User
                 </a>
-                <a href="#" class="topbar-btn logout">
+                <a href="{{ url_for('main.logout') }}" class="topbar-btn logout">
                     <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </a>
             </div>
@@ -55,12 +55,14 @@
                         <span>Effort Log</span>
                     </a>
 
-                    <a href="{{ url_for('main.requirements') }}" class="nav-item">
+                    <a href="{{ url_for('main.requirements') }}"
+                       class="nav-item {% if active_page == 'requirements' %}active{% endif %}">
                         <i class="fa-regular fa-file-lines"></i>
                         <span>Requirements</span>
                     </a>
 
-                    <a href="{{ url_for('main.reports') }}" class="nav-item">
+                    <a href="{{ url_for('main.reports') }}"
+                       class="nav-item {% if active_page == 'reports' %}active{% endif %}">
                         <i class="fa-solid fa-chart-column"></i>
                         <span>Reports</span>
                     </a>

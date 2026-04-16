@@ -1,5 +1,7 @@
 import csv
 import os
+from asyncio import new_event_loop
+from idlelib.iomenu import encoding
 
 import pandas as pd
 
@@ -8,6 +10,7 @@ PROJECTS_FILE = os.path.join(DATA_FOLDER, "projects.csv")
 TEAM_MEMBERS_FILE = os.path.join(DATA_FOLDER, "team_members.csv")
 RISKS_FILE = os.path.join(DATA_FOLDER, "risks.csv")
 EFFORT_LOGS_FILE = os.path.join(DATA_FOLDER, "effort_logs.csv")
+USERS_FILE = os.path.join(DATA_FOLDER, "users.csv")
 
 
 # =========================
@@ -21,6 +24,24 @@ def ensure_all_csvs_exist():
     ensure_team_members_csv_exists()
     ensure_projects_csv_exists()
     ensure_risks_csv_exists()
+
+def ensure_users_csv_exists():
+    os.makedirs(DATA_FOLDER, exist_ok=True)
+
+    if not os.path.exists(USERS_FILE) or os.path.getsize(USERS_FILE) == 0:
+        with open(USERS_FILE, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow([
+                "user_id",
+                "first_name",
+                "last_name",
+                "email",
+                "phone_number",
+                "job_title",
+                "department",
+                "bio",
+                "profile_picture"
+            ])
 
 def ensure_effort_logs_csv_exists():
     os.makedirs(DATA_FOLDER, exist_ok=True)
@@ -80,6 +101,54 @@ def ensure_risks_csv_exists():
                 "risk_status"
             ])
 
+
+# =========================
+# Load User Data
+# =========================
+
+def load_users():
+    ensure_users_csv_exists()
+
+    users = []
+
+    with open(USERS_FILE, newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            users.append(row)
+
+    return users
+
+def get_user_by_id(user_id):
+    ensure_users_csv_exists()
+
+    users = load_users()
+
+    for user in users:
+        if user["user_id"] == str(user_id):
+            return user
+
+    return None
+
+# =========================
+# Update User Data
+# =========================
+
+def update_user(updated_user):
+    users = load_users()
+
+    for user in users:
+        if user["user_id"] == str(updated_user["user_id"]):
+            user["first_name"] = updated_user["first_name"]
+            user["last_name"] = updated_user["last_name"]
+            user["email"] = updated_user["email"]
+            user["phone_number"] = updated_user["phone_number"]
+            user["job_title"] = updated_user["job_title"]
+            user["department"] = updated_user["department"]
+            user["bio"] = updated_user["bio"]
+            user["profile_picture"] = updated_user["profile_picture"]
+            break
+
+    save_users(users)
 
 # =========================
 # Load Current Project Data
@@ -228,3 +297,23 @@ def save_risks(project_id, risk_names, risk_priorities, risk_statuses):
                     status.strip()
                 ])
                 next_id += 1
+
+
+def save_users(users):
+    ensure_users_csv_exists()
+
+    with open(USERS_FILE, mode="w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=[
+            "user_id",
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "job_title",
+            "department",
+            "bio",
+            "profile_picture"
+        ])
+
+        writer.writeheader()
+        writer.writerows(users)
