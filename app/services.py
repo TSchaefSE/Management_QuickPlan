@@ -317,3 +317,22 @@ def save_users(users):
 
         writer.writeheader()
         writer.writerows(users)
+
+def save_effort_log(log_data):
+    # Ensure the directory and file exist with headers
+    ensure_effort_logs_csv_exists()
+    
+    # Load current logs to determine the next log_id
+    logs = load_effort_logs()
+    next_id = len(logs) + 1
+    
+    with open(EFFORT_LOGS_FILE, mode="a", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow([
+            next_id,
+            log_data["team_member"],
+            log_data["project_phase"],
+            log_data["hours_logged"],
+            log_data["date"],
+            log_data["notes"]
+        ])

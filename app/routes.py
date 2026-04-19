@@ -11,7 +11,9 @@ from app.services import (
     load_risks,
     load_users,
     update_user,
-    get_user_by_id
+    get_user_by_id,
+    save_effort_log,
+    load_effort_logs
 )
 
 from .calculations import calculate_total_hours, calculate_total_requirements, calculate_completed_requirements, \
@@ -158,30 +160,27 @@ def project_info():
 @main.route("/effort_logs", methods=["GET", "POST"])
 def effort_logs():
     if request.method == "POST":
-        date = request.form.get("date")
-        member = request.form.get("member")
-        phase = request.form.get("phase")
-        hours = request.form.get("hours")
-        task = request.form.get("task")
+        # Extract form data
+        new_log = {
+            "date": request.form.get("date"),
+            "team_member": request.form.get("member"),
+            "project_phase": request.form.get("phase"),
+            "hours_logged": request.form.get("hours"),
+            "notes": request.form.get("task")
+        }
 
-        ### save to CSV here ###
-
-        # TEMP FOR TESTING
-        print("Effort log submitted:")
-        print("Date:", date)
-        print("Member:", member)
-        print("Phase:", phase)
-        print("Hours:", hours)
-        print("Task:", task)
+        save_effort_log(new_log)
 
         return redirect(url_for("main.effort_logs"))
-
+    
+    logs = load_effort_logs()
     total_hours = calculate_total_hours()
 
     return render_template(
         "effort_logs/effort_logs.html",
         active_page="effort_logs",
-        total_hours=total_hours
+        total_hours=total_hours,
+        logs=logs
     )
 
 @main.route("/requirements", methods=["GET", "POST"])

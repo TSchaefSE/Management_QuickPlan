@@ -81,14 +81,11 @@
 
       <tbody>
         {% for log in logs %}
-        <tr>
-          <td>{{ log.date }}</td>
-          <td>{{ log.member }}</td>
-          <td>{{ log.phase }}</td>
-          <td>{{ log.hours }}</td>
-          <td><a href="#">Edit</a></td>
-        </tr>
-        {% endfor %}
+<tr>
+  <td>{{ log.date }}</td>
+  <td>{{ log.team_member }}</td> <td>{{ log.project_phase }}</td> <td>{{ log.hours_logged }}</td> <td><a href="#">Edit</a></td>
+</tr>
+{% endfor %}
       </tbody>
     </table>
   </div>
