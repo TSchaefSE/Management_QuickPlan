@@ -1,2 +1,2 @@
-id,project_name,owner,description
-1,Quick Plan,John Smith,Test Description
+project_id,project_name,owner,description
+1,Quick Plan,John Smith,This is the project description

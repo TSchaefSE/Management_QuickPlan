@@ -5,45 +5,58 @@
 {% block content %}
 <div class="requirements-container">
 
-  <h2>Requirements Input</h2>
+  <h2>Requirements</h2>
+
+  {% if project %}
+    <p class="page-subtitle">
+      Current Project: <strong>{{ project.project_name }}</strong>
+    </p>
+  {% else %}
+    <p class="page-subtitle">
+      No project is currently available. Create a project before adding requirements.
+    </p>
+  {% endif %}
 
   <form method="POST"
         action="{{ url_for('main.requirements') }}"
         class="requirements-form">
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="requirement_id">Requirement ID</label>
-        <input type="text" id="requirement_id" name="requirement_id" placeholder="Enter requirement ID" required>
-      </div>
+    <input type="hidden"
+           name="editing_requirement_id"
+           value="{{ editing_requirement.requirement_id if editing_requirement else '' }}">
 
+    <div class="effort-row effort-row-three">
       <div class="form-group">
         <label for="requirement_type">Type</label>
-        <select id="requirement_type" name="requirement_type" required>
+        <select id="requirement_type" name="requirement_type" required {% if not project %}disabled{% endif %}>
           <option value="">Select type</option>
-          <option value="Functional">Functional</option>
-          <option value="Non-Functional">Non-Functional</option>
+          <option value="Functional" {% if editing_requirement and editing_requirement.requirement_type == "Functional" %}selected{% endif %}>Functional</option>
+          <option value="Non-Functional" {% if editing_requirement and editing_requirement.requirement_type == "Non-Functional" %}selected{% endif %}>Non-Functional</option>
+          <option value="Business" {% if editing_requirement and editing_requirement.requirement_type == "Business" %}selected{% endif %}>Business</option>
+          <option value="Technical" {% if editing_requirement and editing_requirement.requirement_type == "Technical" %}selected{% endif %}>Technical</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="priority">Priority</label>
-        <select id="priority" name="priority" required>
+        <select id="priority" name="priority" required {% if not project %}disabled{% endif %}>
           <option value="">Select priority</option>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
+          <option value="Low" {% if editing_requirement and editing_requirement.priority == "Low" %}selected{% endif %}>Low</option>
+          <option value="Medium" {% if editing_requirement and editing_requirement.priority == "Medium" %}selected{% endif %}>Medium</option>
+          <option value="High" {% if editing_requirement and editing_requirement.priority == "High" %}selected{% endif %}>High</option>
+          <option value="Critical" {% if editing_requirement and editing_requirement.priority == "Critical" %}selected{% endif %}>Critical</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="status">Status</label>
-        <select id="status" name="status" required>
+        <select id="status" name="status" required {% if not project %}disabled{% endif %}>
           <option value="">Select status</option>
-          <option value="Proposed">Proposed</option>
-          <option value="Active">Active</option>
-          <option value="Completed">Completed</option>
-          <option value="Deferred">Deferred</option>
+          <option value="Proposed" {% if editing_requirement and editing_requirement.status == "Proposed" %}selected{% endif %}>Proposed</option>
+          <option value="Approved" {% if editing_requirement and editing_requirement.status == "Approved" %}selected{% endif %}>Approved</option>
+          <option value="In Progress" {% if editing_requirement and editing_requirement.status == "In Progress" %}selected{% endif %}>In Progress</option>
+          <option value="Completed" {% if editing_requirement and editing_requirement.status == "Completed" %}selected{% endif %}>Completed</option>
+          <option value="Rejected" {% if editing_requirement and editing_requirement.status == "Rejected" %}selected{% endif %}>Rejected</option>
         </select>
       </div>
     </div>
@@ -51,50 +64,84 @@
     <div class="form-row">
       <div class="form-group full-width">
         <label for="title">Requirement Title</label>
-        <input type="text" id="title" name="title" placeholder="Enter requirement title" required>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Enter requirement title"
+          value="{{ editing_requirement.title if editing_requirement else '' }}"
+          required
+          {% if not project %}disabled{% endif %}
+        >
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group full-width">
         <label for="description">Requirement Description</label>
-        <textarea id="description" name="description" rows="6" placeholder="Enter requirement description" required></textarea>
+        <textarea
+          id="description"
+          name="description"
+          rows="6"
+          placeholder="Enter requirement description"
+          required
+          {% if not project %}disabled{% endif %}
+        >{{ editing_requirement.description if editing_requirement else '' }}</textarea>
       </div>
     </div>
 
     <div class="form-actions">
-      <button type="reset" class="secondary-btn">Clear</button>
-      <button type="submit" class="primary-btn">Add</button>
+      <button type="reset" class="secondary-btn" {% if not project %}disabled{% endif %}>Clear</button>
+      <button type="submit" class="primary-btn" {% if not project %}disabled{% endif %}>
+        {% if editing_requirement %}Save Requirement{% else %}Add Requirement{% endif %}
+      </button>
     </div>
   </form>
 
-  <h3>Requirements List</h3>
+  <h3 class="requirements-title">Requirements List</h3>
 
-  <table class="requirements-table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Type</th>
-        <th>Priority</th>
-        <th>Status</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for req in requirements %}
-      <tr>
-        <td>{{ req.requirement_id }}</td>
-        <td>{{ req.requirement_type }}</td>
-        <td>{{ req.priority }}</td>
-        <td>{{ req.status }}</td>
-        <td>
-          <a href="#">Edit</a>
-          <a href="#">Delete</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="team-members-card">
+    <table class="team-members-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if requirements %}
+          {% for req in requirements %}
+          <tr>
+            <td>{{ req.requirement_id }}</td>
+            <td>{{ req.title }}</td>
+            <td>{{ req.requirement_type }}</td>
+            <td>{{ req.priority }}</td>
+            <td>{{ req.status }}</td>
+            <td>{{ req.description }}</td>
+            <td>
+              <a href="{{ url_for('main.requirements', edit_id=req.requirement_id) }}">Edit</a>
+
+              <form method="POST"
+                    action="{{ url_for('main.delete_requirement_route', requirement_id=req.requirement_id) }}"
+                    style="display:inline;">
+                <button type="submit" class="remove-link">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7">No requirements have been added yet.</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
 
 </div>
 {% endblock %}

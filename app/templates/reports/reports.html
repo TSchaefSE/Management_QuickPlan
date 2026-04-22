@@ -7,43 +7,60 @@
 
   <h2>Reports</h2>
 
+  {% if project %}
+    <p class="page-subtitle">
+      Current Project: <strong>{{ project.project_name }}</strong>
+    </p>
+  {% else %}
+    <p class="page-subtitle">
+      No project is currently available.
+    </p>
+  {% endif %}
+
   <form method="GET"
         action="{{ url_for('main.reports') }}"
         class="reports-filter-form">
 
-    <div class="form-row">
+    <div class="effort-row effort-row-three">
       <div class="form-group">
         <label for="start_date">Start Date</label>
-        <input type="date" id="start_date" name="start_date" value="{{ request.args.get('start_date', '') }}">
+        <input type="date"
+               id="start_date"
+               name="start_date"
+               value="{{ selected_start_date }}">
       </div>
 
       <div class="form-group">
         <label for="end_date">End Date</label>
-        <input type="date" id="end_date" name="end_date" value="{{ request.args.get('end_date', '') }}">
+        <input type="date"
+               id="end_date"
+               name="end_date"
+               value="{{ selected_end_date }}">
       </div>
-    </div>
 
-    <div class="form-row">
       <div class="form-group">
         <label for="phase">Project Phase</label>
         <select id="phase" name="phase">
           <option value="">All Phases</option>
-          <option value="Planning" {% if request.args.get('phase') == 'Planning' %}selected{% endif %}>Planning</option>
-          <option value="Design" {% if request.args.get('phase') == 'Design' %}selected{% endif %}>Design</option>
-          <option value="Implementation" {% if request.args.get('phase') == 'Implementation' %}selected{% endif %}>Implementation</option>
-          <option value="Testing" {% if request.args.get('phase') == 'Testing' %}selected{% endif %}>Testing</option>
-          <option value="Documentation" {% if request.args.get('phase') == 'Documentation' %}selected{% endif %}>Documentation</option>
+          <option value="Planning" {% if selected_phase == "Planning" %}selected{% endif %}>Planning</option>
+          <option value="Design" {% if selected_phase == "Design" %}selected{% endif %}>Design</option>
+          <option value="Implementation" {% if selected_phase == "Implementation" %}selected{% endif %}>Implementation</option>
+          <option value="Testing" {% if selected_phase == "Testing" %}selected{% endif %}>Testing</option>
+          <option value="Documentation" {% if selected_phase == "Documentation" %}selected{% endif %}>Documentation</option>
         </select>
       </div>
+    </div>
 
+    <div class="effort-row effort-row-three">
       <div class="form-group">
         <label for="member">Team Member</label>
         <select id="member" name="member">
           <option value="">All Team Members</option>
-          <option value="John Smith" {% if request.args.get('member') == 'John Smith' %}selected{% endif %}>John Smith</option>
-          <option value="Sarah Johnson" {% if request.args.get('member') == 'Sarah Johnson' %}selected{% endif %}>Sarah Johnson</option>
-          <option value="Alex Lee" {% if request.args.get('member') == 'Alex Lee' %}selected{% endif %}>Alex Lee</option>
-          <option value="Taylor Brown" {% if request.args.get('member') == 'Taylor Brown' %}selected{% endif %}>Taylor Brown</option>
+          {% for member_name in members %}
+            <option value="{{ member_name }}" {% if selected_member == member_name %}selected{% endif %}>
+              {{ member_name }}
+            </option>
+          {% endfor %}
         </select>
       </div>
 
@@ -51,17 +68,24 @@
         <label for="requirement">Requirement</label>
         <select id="requirement" name="requirement">
           <option value="">All Requirements</option>
-          <option value="REQ-001" {% if request.args.get('requirement') == 'REQ-001' %}selected{% endif %}>REQ-001</option>
-          <option value="REQ-002" {% if request.args.get('requirement') == 'REQ-002' %}selected{% endif %}>REQ-002</option>
-          <option value="REQ-003" {% if request.args.get('requirement') == 'REQ-003' %}selected{% endif %}>REQ-003</option>
+          {% for req in requirements_list %}
+            {% set req_label = req.requirement_id ~ " - " ~ req.title %}
+            <option value="{{ req_label }}" {% if selected_requirement == req_label %}selected{% endif %}>
+              {{ req_label }}
+            </option>
+          {% endfor %}
         </select>
+      </div>
+
+      <div class="form-group form-actions-inline">
+        <label>&nbsp;</label>
+        <div class="form-actions">
+          <button type="submit" class="primary-btn">Apply Filters</button>
+          <a href="{{ url_for('main.reports') }}" class="secondary-btn">Clear</a>
+        </div>
       </div>
     </div>
 
-    <div class="form-actions">
-      <button type="submit" class="primary-btn">Apply Filters</button>
-      <a href="{{ url_for('main.reports') }}" class="secondary-btn">Clear</a>
-    </div>
   </form>
 
   <h3>Summary Metrics</h3>
@@ -92,57 +116,62 @@
     </div>
   </div>
 
-  <h3>Requirement Effort Breakdown</h3>
+  <h3>Effort Log Breakdown</h3>
 
-  <table class="reports-table">
-    <thead>
-      <tr>
-        <th>Requirement ID</th>
-        <th>Title</th>
-        <th>Hours</th>
-        <th>Status</th>
-      </tr>
-    </thead>
+  <div class="effort-table-card">
+    <table class="effort-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Team Member</th>
+          <th>Phase</th>
+          <th>Hours</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
 
-    <tbody>
-      {% if breakdown %}
-        {% for item in breakdown %}
-        <tr>
-          <td>{{ item.requirement_id }}</td>
-          <td>{{ item.title }}</td>
-          <td>{{ item.hours }}</td>
-          <td>{{ item.status }}</td>
-        </tr>
-        {% endfor %}
-      {% else %}
-        <tr>
-          <td>REQ-001</td>
-          <td>User Authentication System</td>
-          <td>42.5</td>
-          <td>Completed</td>
-        </tr>
-        <tr>
-          <td>REQ-002</td>
-          <td>Dashboard Implementation</td>
-          <td>35.0</td>
-          <td>In Progress</td>
-        </tr>
-        <tr>
-          <td>REQ-003</td>
-          <td>Database Schema Design</td>
-          <td>28.0</td>
-          <td>Completed</td>
-        </tr>
-      {% endif %}
-    </tbody>
-  </table>
+      <tbody>
+        {% if breakdown %}
+          {% for item in breakdown %}
+          <tr>
+            <td>{{ item.date }}</td>
+            <td>{{ item.member_name }}</td>
+            <td>{{ item.project_phase }}</td>
+            <td>{{ item.hours_logged }}</td>
+            <td>{{ item.notes }}</td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="5">No effort logs match the selected filters.</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
 
   <h3>Export Options</h3>
 
   <div class="export-actions">
-    <button type="button" class="primary-btn">Export to CSV</button>
-    <button type="button" class="primary-btn">Export to PDF</button>
-    <button type="button" class="primary-btn">Print Report</button>
+    <a href="{{ url_for('main.export_reports_csv',
+                        start_date=selected_start_date,
+                        end_date=selected_end_date,
+                        phase=selected_phase,
+                        member=selected_member,
+                        requirement=selected_requirement) }}"
+      class="primary-btn">
+      Export to CSV
+    </a>
+
+    <a href="{{ url_for('main.export_reports_pdf',
+                        start_date=selected_start_date,
+                        end_date=selected_end_date,
+                        phase=selected_phase,
+                        member=selected_member,
+                        requirement=selected_requirement) }}"
+      class="primary-btn">
+      Export to PDF
+    </a>
   </div>
 
 </div>
@@ -151,8 +180,9 @@
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-    const hoursByPhase = {{ hours_by_phase | tojson }};
+<script id="hours-data" type="application/json">
+    {{ hours_by_phase | default({}, true) | tojson }}
 </script>
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script> <!-- REUSES DASHBOARD MAY NEED TO CHANGE -->
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}
