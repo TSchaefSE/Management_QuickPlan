@@ -343,6 +343,10 @@ def reports():
     
     start_date = request.args.get("start_date", default_start_date.strftime("%Y-%m-%d")).strip()
     end_date = request.args.get("end_date", today.strftime("%Y-%m-%d")).strip()
+
+    if start_date and end_date and end_date < start_date:
+        end_date = start_date
+        
     phase = request.args.get("phase", "").strip()
     member = request.args.get("member", "").strip()
     requirement = request.args.get("requirement", "").strip()
