@@ -16,7 +16,7 @@
     <div class="effort-row effort-row-three">
       <div class="form-group">
         <label for="date">Date</label>
-        <input type="text" id="date" name="date" placeholder="March 19, 2026" required>
+        <input type="text" id="date" name="date" placeholder="2026-04-01" required>
       </div>
 
       <div class="form-group">
@@ -75,6 +75,7 @@
           <th>Team Member</th>
           <th>Phase</th>
           <th>Hours</th>
+          <th>Description</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -83,7 +84,11 @@
         {% for log in logs %}
 <tr>
   <td>{{ log.date }}</td>
-  <td>{{ log.team_member }}</td> <td>{{ log.project_phase }}</td> <td>{{ log.hours_logged }}</td> <td><a href="#">Edit</a></td>
+  <td>{{ log.team_member }}</td> 
+  <td>{{ log.project_phase }}</td> 
+  <td>{{ log.hours_logged }}</td>
+  <td>{{ log.notes }}</td> 
+  <td><a href="#">Edit</a></td>
 </tr>
 {% endfor %}
       </tbody>

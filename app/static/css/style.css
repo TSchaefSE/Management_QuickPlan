@@ -808,3 +808,14 @@ body {
     text-decoration: underline;
 }
 
+.effort-table th:nth-child(5),
+.effort-table td:nth-child(5) {
+    width: 35%; 
+}
+
+.effort-table th:last-child,
+.effort-table td:last-child {
+    width: 100px;
+    text-align: center; 
+}
+

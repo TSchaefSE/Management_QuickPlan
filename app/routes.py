@@ -160,7 +160,6 @@ def project_info():
 @main.route("/effort_logs", methods=["GET", "POST"])
 def effort_logs():
     if request.method == "POST":
-        # Extract form data
         new_log = {
             "date": request.form.get("date"),
             "team_member": request.form.get("member"),

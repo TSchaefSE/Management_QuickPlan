@@ -319,10 +319,8 @@ def save_users(users):
         writer.writerows(users)
 
 def save_effort_log(log_data):
-    # Ensure the directory and file exist with headers
     ensure_effort_logs_csv_exists()
     
-    # Load current logs to determine the next log_id
     logs = load_effort_logs()
     next_id = len(logs) + 1
     
