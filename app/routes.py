@@ -5,7 +5,7 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from app.services import (
     load_project_info,
@@ -338,8 +338,11 @@ def reports():
     project = _require_current_project()
     project_id = project["project_id"] if project else None
 
-    start_date = request.args.get("start_date", "").strip()
-    end_date = request.args.get("end_date", "").strip()
+    today = datetime.today()
+    default_start_date = today - timedelta(days=30)
+    
+    start_date = request.args.get("start_date", default_start_date.strftime("%Y-%m-%d")).strip()
+    end_date = request.args.get("end_date", today.strftime("%Y-%m-%d")).strip()
     phase = request.args.get("phase", "").strip()
     member = request.args.get("member", "").strip()
     requirement = request.args.get("requirement", "").strip()
