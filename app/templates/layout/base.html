@@ -17,10 +17,42 @@
                 </div>
 
                 <div class="project-switcher">
-                    <label for="project-select">Project:</label>
-                    <select id="project-select" name="project">
-                        <option value="quickplan">QuickPlan</option> <!-- Update from CSV later -->
-                    </select>
+                    <form method="POST"
+                        action="{{ url_for('main.select_project') }}"
+                        class="project-select-form">
+                        <label for="project-select">Project:</label>
+
+                        <select id="project-select"
+                                name="project_id"
+                                onchange="this.form.submit()">
+                            {% for project_item in available_projects %}
+                                <option value="{{ project_item.project_id }}"
+                                    {% if selected_project and project_item.project_id|string == selected_project.project_id|string %}selected{% endif %}>
+                                    {{ project_item.project_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+
+                    <form method="POST"
+                        action="{{ url_for('main.new_project') }}"
+                        class="project-action-form">
+                        <button type="submit" class="project-icon-btn" title="Add New Project">
+                            +
+                        </button>
+                    </form>
+
+                    <form method="POST"
+                        action="{{ url_for('main.delete_current_project') }}"
+                        class="project-action-form"
+                        onsubmit="return confirm('Delete this project and all of its related records?');">
+                        <button type="submit"
+                                class="project-icon-btn danger"
+                                title="Delete Current Project"
+                                {% if available_projects|length <= 1 %}disabled{% endif %}>
+                            −
+                        </button>
+                    </form>
                 </div>
             </div>
 

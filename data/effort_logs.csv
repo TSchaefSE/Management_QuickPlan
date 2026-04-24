@@ -1,6 +1,7 @@
 effort_log_id,project_id,team_member_id,project_phase,hours_logged,date,notes
-1,1,1,Planning,3,2026-04-01,Initial project planning
-2,1,2,Design,5,2026-04-02,Created system architecture
-3,1,3,Implementation,8,2026-04-03,Developed core features
-4,1,4,Testing,4,2026-04-04,Performed unit testing
-5,1,5,Documentation,2,2026-04-05,Wrote project documentation
+1,1,1,Planning,3.0,2026-04-01,Initial project planning
+2,1,2,Design,5.0,2026-04-02,Created system architecture
+3,1,3,Implementation,8.0,2026-04-03,Developed core features
+4,1,4,Testing,4.0,2026-04-04,Performed unit testing
+5,1,5,Documentation,2.0,2026-04-05,Wrote project documentation
+6,2,6,Design,3.0,2026-04-23,Added multi project functionality.

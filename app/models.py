@@ -176,7 +176,6 @@ def ensure_all_csvs_exist() -> None:
     ensure_risks_csv_exists()
     ensure_users_csv_exists()
 
-
 # =========================
 # Projects
 # =========================
@@ -199,31 +198,84 @@ def get_project_by_id(project_id: Any) -> Optional[Dict[str, Any]]:
     return first_row_as_dict(matches)
 
 
-def get_current_project() -> Optional[Dict[str, Any]]:
+def get_first_project() -> Optional[Dict[str, Any]]:
     df = load_projects_df()
     return first_row_as_dict(df)
 
 
-def upsert_single_project(project_name: str, owner: str, description: str) -> Dict[str, Any]:
+def insert_project(
+    project_name: str = "New Project",
+    owner: str = "",
+    description: str = "",
+) -> Dict[str, Any]:
     df = load_projects_df()
-    existing_project = get_current_project()
 
-    if existing_project:
-        project_id = int(existing_project["project_id"])
-    else:
-        project_id = 1
+    new_project = {
+        "project_id": get_next_id(df, "project_id"),
+        "project_name": str(project_name).strip() or "New Project",
+        "owner": str(owner).strip(),
+        "description": str(description).strip(),
+    }
 
-    updated_df = pd.DataFrame([
-        {
-            "project_id": project_id,
-            "project_name": project_name.strip(),
-            "owner": owner.strip(),
-            "description": description.strip(),
-        }
-    ])
+    new_df = pd.DataFrame([new_project], columns=PROJECTS_COLUMNS)
+    updated_df = pd.concat([df, new_df], ignore_index=True)
 
     save_projects_df(updated_df)
-    return updated_df.iloc[0].to_dict()
+    return new_project
+
+
+def update_project(
+    project_id: Any,
+    project_name: str,
+    owner: str,
+    description: str,
+) -> Optional[Dict[str, Any]]:
+    df = load_projects_df()
+
+    if df.empty:
+        return None
+
+    mask = df["project_id"].astype(str).str.strip() == str(project_id).strip()
+
+    if not mask.any():
+        return None
+
+    df.loc[mask, "project_name"] = str(project_name).strip()
+    df.loc[mask, "owner"] = str(owner).strip()
+    df.loc[mask, "description"] = str(description).strip()
+
+    save_projects_df(df)
+    return first_row_as_dict(df[mask])
+
+def delete_project(project_id: Any) -> bool:
+    project_id = str(project_id).strip()
+
+    projects_df = load_projects_df()
+    original_count = len(projects_df)
+
+    projects_df = projects_df[
+        projects_df["project_id"].astype(str).str.strip() != project_id
+    ].copy()
+
+    if len(projects_df) == original_count:
+        return False
+
+    save_projects_df(projects_df)
+
+    # Cascade delete related project records
+    effort_df = load_effort_logs_df()
+    save_effort_logs_df(effort_df[effort_df["project_id"].astype(str).str.strip() != project_id].copy())
+
+    requirements_df = load_requirements_df()
+    save_requirements_df(requirements_df[requirements_df["project_id"].astype(str).str.strip() != project_id].copy())
+
+    risks_df = load_risks_df()
+    save_risks_df(risks_df[risks_df["project_id"].astype(str).str.strip() != project_id].copy())
+
+    team_df = load_team_members_df()
+    save_team_members_df(team_df[team_df["project_id"].astype(str).str.strip() != project_id].copy())
+
+    return True
 
 
 # =========================

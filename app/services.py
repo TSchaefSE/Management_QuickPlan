@@ -96,22 +96,49 @@ def load_projects() -> List[Dict[str, Any]]:
     return models.get_all_projects()
 
 
-def load_project_info() -> Optional[Dict[str, Any]]:
-    return models.get_current_project()
+def load_project_info(project_id: Any = None) -> Optional[Dict[str, Any]]:
+    if project_id is not None:
+        cleaned_project_id = _clean_int_like(project_id)
+        if cleaned_project_id is None:
+            return None
+
+        return models.get_project_by_id(cleaned_project_id)
+
+    return models.get_first_project()
 
 
 def get_project_by_id(project_id: Any) -> Optional[Dict[str, Any]]:
-    project_id = _clean_int_like(project_id)
-    if project_id is None:
+    cleaned_project_id = _clean_int_like(project_id)
+    if cleaned_project_id is None:
         return None
 
-    return models.get_project_by_id(project_id)
+    return models.get_project_by_id(cleaned_project_id)
 
 
-def save_project_info(project_name: str, owner: str, description: str) -> int:
+def create_project(
+    project_name: str = "New Project",
+    owner: str = "",
+    description: str = "",
+) -> Dict[str, Any]:
+    project_name = _clean_string(project_name) or "New Project"
+    owner = _clean_string(owner)
+    description = _clean_string(description)
+
+    return models.insert_project(
+        project_name=project_name,
+        owner=owner,
+        description=description,
+    )
+
+
+def save_project_info(project_id: Any, project_name: str, owner: str, description: str) -> int:
+    cleaned_project_id = _clean_int_like(project_id)
     project_name = _clean_string(project_name)
     owner = _clean_string(owner)
     description = _clean_string(description)
+
+    if cleaned_project_id is None:
+        raise ValueError("A valid project_id is required.")
 
     if not project_name:
         raise ValueError("Project name is required.")
@@ -119,34 +146,26 @@ def save_project_info(project_name: str, owner: str, description: str) -> int:
     if not owner:
         raise ValueError("Project owner is required.")
 
-    existing_project = models.get_current_project()
-
-    if existing_project:
-        existing_payload = {
-            "project_name": existing_project.get("project_name", ""),
-            "owner": existing_project.get("owner", ""),
-            "description": existing_project.get("description", ""),
-        }
-
-        incoming_payload = {
-            "project_name": project_name,
-            "owner": owner,
-            "description": description,
-        }
-
-        if _rows_match_on_keys(
-            existing_payload,
-            incoming_payload,
-            ["project_name", "owner", "description"],
-        ):
-            return int(existing_project["project_id"])
-
-    saved_project = models.upsert_single_project(
+    updated_project = models.update_project(
+        project_id=cleaned_project_id,
         project_name=project_name,
         owner=owner,
         description=description,
     )
-    return int(saved_project["project_id"])
+
+    if not updated_project:
+        raise ValueError(f"Project with project_id {cleaned_project_id} does not exist.")
+
+    return int(updated_project["project_id"])
+
+
+def delete_project(project_id: Any) -> bool:
+    cleaned_project_id = _clean_int_like(project_id)
+
+    if cleaned_project_id is None:
+        raise ValueError("A valid project_id is required.")
+
+    return models.delete_project(cleaned_project_id)
 
 
 # =========================
@@ -488,11 +507,8 @@ def save_risks(
             "risk_status": _clean_string(status),
         }
 
-        if not (candidate["risk_name"] or candidate["risk_priority"] or candidate["risk_status"]):
-            continue
-
         if not candidate["risk_name"]:
-            raise ValueError("Each risk must have a name.")
+            continue
 
         if not candidate["risk_priority"]:
             raise ValueError("Each risk must have a priority.")

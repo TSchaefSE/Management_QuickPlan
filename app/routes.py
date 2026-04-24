@@ -8,7 +8,10 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from datetime import datetime, timedelta
 
 from app.services import (
+    load_projects,
     load_project_info,
+    create_project,
+    delete_project,
     save_project_info,
     load_team_members,
     save_team_members,
@@ -51,7 +54,22 @@ def _require_login():
 
 
 def _require_current_project():
-    return load_project_info()
+    selected_project_id = session.get("project_id")
+
+    if selected_project_id:
+        project = load_project_info(selected_project_id)
+        if project:
+            return project
+
+    projects = load_projects()
+
+    if not projects:
+        return None
+
+    first_project = projects[0]
+    session["project_id"] = first_project["project_id"]
+
+    return first_project
 
 
 # =========================
@@ -82,6 +100,37 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("main.login"))
+
+
+@main.route("/projects/select", methods=["POST"])
+def select_project():
+    user_id = _require_login()
+    if not user_id:
+        return redirect(url_for("main.login"))
+
+    selected_project_id = request.form.get("project_id")
+
+    if selected_project_id:
+        session["project_id"] = selected_project_id
+
+    return redirect(request.referrer or url_for("main.dashboard"))
+
+
+@main.route("/projects/new", methods=["POST"])
+def new_project():
+    user_id = _require_login()
+    if not user_id:
+        return redirect(url_for("main.login"))
+
+    new_project_row = create_project(
+        project_name="New Project",
+        owner="Unassigned",
+        description=""
+    )
+
+    session["project_id"] = new_project_row["project_id"]
+
+    return redirect(url_for("main.project_info"))
 
 
 # =========================
@@ -176,7 +225,10 @@ def project_info():
         risk_priorities = request.form.getlist("risk_priority[]")
         risk_statuses = request.form.getlist("risk_status[]")
 
+        project = _require_current_project()
+
         project_id = save_project_info(
+            project_id=project["project_id"],
             project_name=project_name,
             owner=owner,
             description=description,
@@ -198,7 +250,7 @@ def project_info():
 
         return redirect(url_for("main.project_info"))
 
-    project = load_project_info()
+    project = _require_current_project()
 
     if project:
         project_id = project["project_id"]
@@ -215,6 +267,32 @@ def project_info():
         members=members,
         risks=risks,
     )
+
+@main.route("/projects/delete", methods=["POST"])
+def delete_current_project():
+    user_id = _require_login()
+    if not user_id:
+        return redirect(url_for("main.login"))
+
+    project = _require_current_project()
+    projects = load_projects()
+
+    if not project:
+        return redirect(url_for("main.dashboard"))
+
+    if len(projects) <= 1:
+        return redirect(url_for("main.dashboard"))
+
+    delete_project(project["project_id"])
+
+    remaining_projects = load_projects()
+
+    if remaining_projects:
+        session["project_id"] = remaining_projects[0]["project_id"]
+    else:
+        session.pop("project_id", None)
+
+    return redirect(url_for("main.dashboard"))
 
 
 # =========================
@@ -240,6 +318,7 @@ def effort_logs():
                 "notes": request.form.get("task"),
             }
 
+            print("NEW LOG:", new_log)
             save_effort_log(new_log)
 
         return redirect(url_for("main.effort_logs"))
@@ -521,3 +600,21 @@ def export_reports_pdf():
         as_attachment=True,
         download_name="quickplan_report.pdf",
     )
+
+@main.app_context_processor
+def inject_projects():
+    projects = load_projects()
+    selected_project = None
+
+    selected_project_id = session.get("project_id")
+
+    if selected_project_id:
+        selected_project = load_project_info(selected_project_id)
+
+    if not selected_project and projects:
+        selected_project = projects[0]
+
+    return {
+        "available_projects": projects,
+        "selected_project": selected_project,
+    }
