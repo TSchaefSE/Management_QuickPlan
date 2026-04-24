@@ -1,9 +1,17 @@
 import os
 from typing import Any, Dict, List, Optional
-
 import pandas as pd
+import sys
 
-DATA_FOLDER = "data"
+def get_base_path():
+    if getattr(sys, "frozen", False):
+        return getattr(sys, "_MEIPASS", os.path.dirname(sys.executable))
+
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
+BASE_PATH = get_base_path()
+DATA_FOLDER = os.path.join(BASE_PATH, "data")
 
 PROJECTS_FILE = os.path.join(DATA_FOLDER, "projects.csv")
 TEAM_MEMBERS_FILE = os.path.join(DATA_FOLDER, "team_members.csv")

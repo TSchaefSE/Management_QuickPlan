@@ -141,13 +141,15 @@
             <tr>
               <td>{{ log.date }}</td>
               <td>
-                {% set member_name = "Unknown Member" %}
+                {% set ns = namespace(member_name="Unknown Member") %}
+
                 {% for member in members %}
                   {% if member.team_member_id|string == log.team_member_id|string %}
-                    {% set member_name = member.member_name %}
+                    {% set ns.member_name = member.member_name %}
                   {% endif %}
                 {% endfor %}
-                {{ member_name }}
+
+                {{ ns.member_name }}
               </td>
               <td>{{ log.project_phase }}</td>
               <td>{{ log.hours_logged }}</td>
