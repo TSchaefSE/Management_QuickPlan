@@ -1,4 +1,7 @@
+import os
+import sys
 import csv
+from datetime import datetime
 import io
 from flask import Blueprint, render_template, redirect, url_for, request, session, send_file
 from reportlab.lib import colors
@@ -461,44 +464,36 @@ def export_reports_csv():
     project = _require_current_project()
     project_id = project["project_id"] if project else None
 
-    start_date = request.args.get("start_date", "").strip()
-    end_date = request.args.get("end_date", "").strip()
-    phase = request.args.get("phase", "").strip()
-    member = request.args.get("member", "").strip()
-    
-
     report_data = build_report_data(
         project_id=project_id,
-        start_date=start_date,
-        end_date=end_date,
-        phase=phase,
-        member=member,
-        requirement="",
+        start_date=request.args.get("start_date", "").strip(),
+        end_date=request.args.get("end_date", "").strip(),
+        phase=request.args.get("phase", "").strip(),
+        member=request.args.get("member", "").strip(),
+        requirement=request.args.get("requirement", "").strip(),
     )
 
-    output = io.StringIO()
-    writer = csv.writer(output)
-
-    writer.writerow(["Date", "Team Member", "Phase", "Hours", "Notes"])
-
-    for row in report_data["breakdown"]:
-        writer.writerow([
-            row.get("date", ""),
-            row.get("member_name", ""),
-            row.get("project_phase", ""),
-            row.get("hours_logged", ""),
-            row.get("notes", ""),
-        ])
-
-    mem = io.BytesIO(output.getvalue().encode("utf-8"))
-    mem.seek(0)
-
-    return send_file(
-        mem,
-        mimetype="text/csv",
-        as_attachment=True,
-        download_name="quickplan_report.csv",
+    export_folder = _get_export_folder()
+    file_path = os.path.join(
+        export_folder,
+        f"quickplan_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
     )
+
+    with open(file_path, "w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Date", "Team Member", "Phase", "Hours", "Notes"])
+
+        for row in report_data["breakdown"]:
+            writer.writerow([
+                row.get("date", ""),
+                row.get("member_name", ""),
+                row.get("project_phase", ""),
+                row.get("hours_logged", ""),
+                row.get("notes", ""),
+            ])
+
+    os.startfile(file_path)
+    return redirect(url_for("main.reports"))
 
 
 @main.route("/reports/export/pdf", methods=["GET"])
@@ -524,9 +519,14 @@ def export_reports_pdf():
         requirement="",
     )
 
-    buffer = io.BytesIO()
+    export_folder = _get_export_folder()
+    file_path = os.path.join(
+        export_folder,
+        f"quickplan_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+    )
+
     doc = SimpleDocTemplate(
-        buffer,
+        file_path,
         pagesize=landscape(letter),
         leftMargin=30,
         rightMargin=30,
@@ -561,6 +561,7 @@ def export_reports_pdf():
     elements.append(Spacer(1, 18))
 
     details_data = [["Date", "Team Member", "Phase", "Hours", "Notes"]]
+
     for row in report_data["breakdown"]:
         details_data.append([
             str(row.get("date", "")),
@@ -587,19 +588,29 @@ def export_reports_pdf():
         ("PADDING", (0, 0), (-1, -1), 6),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
     ]))
+
     elements.append(Paragraph("Effort Log Breakdown", styles["Heading2"]))
     elements.append(Spacer(1, 8))
     elements.append(details_table)
 
     doc.build(elements)
-    buffer.seek(0)
 
-    return send_file(
-        buffer,
-        mimetype="application/pdf",
-        as_attachment=True,
-        download_name="quickplan_report.pdf",
-    )
+    try:
+        os.startfile(file_path)
+    except Exception:
+        pass
+
+    return redirect(url_for("main.reports"))
+
+def _get_export_folder():
+    if getattr(sys, "frozen", False):
+        base_path = os.path.dirname(sys.executable)
+    else:
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+    export_folder = os.path.join(base_path, "exports")
+    os.makedirs(export_folder, exist_ok=True)
+    return export_folder
 
 @main.app_context_processor
 def inject_projects():
