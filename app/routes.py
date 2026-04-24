@@ -349,7 +349,6 @@ def reports():
         
     phase = request.args.get("phase", "").strip()
     member = request.args.get("member", "").strip()
-    requirement = request.args.get("requirement", "").strip()
 
     report_data = build_report_data(
         project_id=project_id,
@@ -357,7 +356,7 @@ def reports():
         end_date=end_date,
         phase=phase,
         member=member,
-        requirement=requirement,
+        requirement="",
     )
 
     return render_template(
@@ -368,12 +367,10 @@ def reports():
         hours_by_phase=report_data["hours_by_phase"],
         project=project,
         members=report_data["members"],
-        requirements_list=report_data["requirements_list"],
         selected_start_date=start_date,
         selected_end_date=end_date,
         selected_phase=phase,
         selected_member=member,
-        selected_requirement=requirement,
     )
 
 @main.route("/reports/export/csv", methods=["GET"])
@@ -389,7 +386,7 @@ def export_reports_csv():
     end_date = request.args.get("end_date", "").strip()
     phase = request.args.get("phase", "").strip()
     member = request.args.get("member", "").strip()
-    requirement = request.args.get("requirement", "").strip()
+    
 
     report_data = build_report_data(
         project_id=project_id,
@@ -397,7 +394,7 @@ def export_reports_csv():
         end_date=end_date,
         phase=phase,
         member=member,
-        requirement=requirement,
+        requirement="",
     )
 
     output = io.StringIO()
@@ -438,7 +435,6 @@ def export_reports_pdf():
     end_date = request.args.get("end_date", "").strip()
     phase = request.args.get("phase", "").strip()
     member = request.args.get("member", "").strip()
-    requirement = request.args.get("requirement", "").strip()
 
     report_data = build_report_data(
         project_id=project_id,
@@ -446,7 +442,7 @@ def export_reports_pdf():
         end_date=end_date,
         phase=phase,
         member=member,
-        requirement=requirement,
+        requirement="",
     )
 
     buffer = io.BytesIO()

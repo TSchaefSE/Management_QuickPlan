@@ -64,19 +64,6 @@
         </select>
       </div>
 
-      <div class="form-group">
-        <label for="requirement">Requirement</label>
-        <select id="requirement" name="requirement">
-          <option value="">All Requirements</option>
-          {% for req in requirements_list %}
-            {% set req_label = req.requirement_id ~ " - " ~ req.title %}
-            <option value="{{ req_label }}" {% if selected_requirement == req_label %}selected{% endif %}>
-              {{ req_label }}
-            </option>
-          {% endfor %}
-        </select>
-      </div>
-
       <div class="form-group form-actions-inline">
         <label>&nbsp;</label>
         <div class="form-actions">
