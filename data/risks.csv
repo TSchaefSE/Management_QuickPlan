@@ -1,3 +1,5 @@
-id,project_id,risk_name,risk_priority,risk_status
-1,1,,Low,Open
-2,1,Test Risk 2,Medium,Open
+risk_id,project_id,risk_name,risk_priority,risk_status
+5,1,Scope creep,High,Open
+6,1,Key developer unavailable,Medium,Open
+7,1,Data corruption,Critical,Mitigated
+8,1,Timeline delay,High,Closed

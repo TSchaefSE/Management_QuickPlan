@@ -1,6 +1,6 @@
-log_id,project_id,requirement_id,team_member,project_phase,hours_logged,date,notes
-1,1,,Alice,Planning,3,2026-04-01,Initial project planning
-2,1,,Bob,Design,5,2026-04-02,Created system architecture
-3,1,,Charlie,Implementation,8,2026-04-03,Developed core features
-4,1,,Diana,Testing,4,2026-04-04,Performed unit testing
-5,1,,Evan,Documentation,2,2026-04-05,Wrote project documentation
+requirement_id,project_id,requirement_type,priority,status,title,description
+1,1,Functional,High,Approved,User Login,The system shall allow a user to select a mock account and log into the application.
+2,1,Functional,High,In Progress,Project Creation,The system shall allow the user to create and save a project with name owner and description.
+3,1,Functional,Medium,Proposed,Requirement Tracking,The system shall allow the user to create view and update project requirements.
+4,1,Non-Functional,Medium,Approved,CSV Persistence,The system shall persist project data in CSV files instead of a traditional database.
+5,1,Functional,High,Completed,Dashboard Summary,The system shall display total requirements completed requirements total hours and open risks on the dashboard.

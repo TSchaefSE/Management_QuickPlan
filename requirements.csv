@@ -1,5 +1,0 @@
-
-requirement_id,requirement_type,description,status,priority
-REQ-001,Functional,User Authentication System,Completed,High
-REQ-002,Functional,Dashboard Implementation,In Progress,High
-REQ-003,Functional,Database Schema Design,Completed,Medium

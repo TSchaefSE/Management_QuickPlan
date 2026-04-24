@@ -5,53 +5,73 @@
 {% block content %}
 <div class="dashboard-container">
 
-    <!-- Header -->
     <div class="dashboard-header">
-        <h2>Dashboard & Summary Reporting</h2>
+        <div>
+            <h2>Dashboard &amp; Summary Reporting</h2>
+            {% if project %}
+                <p class="dashboard-subtitle">
+                    Current Project: <strong>{{ project.project_name }}</strong>
+                </p>
+            {% else %}
+                <p class="dashboard-subtitle">
+                    No project has been created yet. Add a project in Project Info to begin tracking.
+                </p>
+            {% endif %}
+        </div>
     </div>
 
-    <!-- Summary Cards -->
     <div class="stats-grid">
         <div class="stat-card">
             <h3>Total Requirements</h3>
-            <h2 class="stat-value">{{ requirements_count }} </h2>
+            <h2 class="stat-value">{{ requirements_count }}</h2>
         </div>
 
         <div class="stat-card">
-            <h3>Completed</h3>
-            <h2 class="stat-value">{{ completed_requirements }} </h2>
+            <h3>Completed Requirements</h3>
+            <h2 class="stat-value">{{ completed_requirements }}</h2>
         </div>
 
         <div class="stat-card">
             <h3>Hours Logged</h3>
-            <h2 class="stat-value">{{ total_hours }}</h2>
+            <h2 class="stat-value">{{ "%.1f"|format(total_hours) }}</h2>
         </div>
 
         <div class="stat-card">
             <h3>Open Risks</h3>
-            <h2 class="stat-value">{{ open_risks }} </h2>
+            <h2 class="stat-value">{{ open_risks }}</h2>
         </div>
     </div>
 
-    <!-- Main Panels -->
     <div class="dashboard-panels">
 
-        <!-- Chart -->
         <div class="panel chart-panel">
             <h3>Hours by Development Phase</h3>
             <div class="chart-body">
-                <canvas id="phaseChart"></canvas>
+                {% if project %}
+                    <canvas id="phaseChart"></canvas>
+                {% else %}
+                    <p class="empty-state-text">
+                        No project data is available yet.
+                    </p>
+                {% endif %}
             </div>
         </div>
 
-        <!-- Activity -->
         <div class="panel activity-panel">
-            <h3>Recent Activity</h3>
-            <ul class="activity-list">
-                <li>Updated requirement FR-3</li> <!-- PLACEHOLDER -->
-                <li>Logged 4 hours to Implementation</li> <!-- PLACEHOLDER -->
-                <li>Added new project risk</li> <!-- PLACEHOLDER -->
-            </ul>
+            <h3>Project Snapshot</h3>
+            {% if project %}
+                <ul class="activity-list">
+                    <li><strong>Owner:</strong> {{ project.owner }}</li>
+                    <li><strong>Description:</strong> {{ project.description or "No description provided." }}</li>
+                    <li><strong>Requirements Tracked:</strong> {{ requirements_count }}</li>
+                    <li><strong>Open Risks:</strong> {{ open_risks }}</li>
+                </ul>
+            {% else %}
+                <ul class="activity-list">
+                    <li>No active project found.</li>
+                    <li>Create a project to populate dashboard metrics.</li>
+                </ul>
+            {% endif %}
         </div>
 
     </div>
@@ -62,8 +82,9 @@
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-    const hoursByPhase = {{ hours_by_phase | tojson }};
+<script id="hours-data" type="application/json">
+    {{ hours_by_phase | default({}, true) | tojson }}
 </script>
+
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}

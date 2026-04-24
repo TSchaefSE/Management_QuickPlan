@@ -1,10 +1,6 @@
-log_id,team_member,project_phase,hours_logged,date,notes
-1,Alice,Planning,3,2026-04-01,Initial project planning
-2,Bob,Design,5,2026-04-02,Created system architecture
-3,Charlie,Implementation,8,2026-04-03,Developed core features
-4,Diana,Testing,4,2026-04-04,Performed unit testing
-5,Evan,Documentation,2,2026-04-05,Wrote project documentation
-6,Debora,Design,2,"April 18, 2026",Test 1
-7,Debora,Implementation,3,2026-04-18,idk
-8,Debora,Planning,1,2026-04-18,idk
-9,Debora,Testing,1,2026-04-18,idk
+effort_log_id,project_id,team_member_id,project_phase,hours_logged,date,notes
+1,1,1,Planning,3,2026-04-01,Initial project planning
+2,1,2,Design,5,2026-04-02,Created system architecture
+3,1,3,Implementation,8,2026-04-03,Developed core features
+4,1,4,Testing,4,2026-04-04,Performed unit testing
+5,1,5,Documentation,2,2026-04-05,Wrote project documentation

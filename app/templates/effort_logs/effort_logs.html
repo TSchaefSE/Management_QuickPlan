@@ -1,12 +1,21 @@
-
 {% extends "layout/base.html" %}
 
 {% block title %}Effort Logs | Management QuickPlan{% endblock %}
 
 {% block content %}
-<div class="effort-logs-container">
+<div class="project-info-container">
 
   <h2>Effort Logging</h2>
+
+  {% if project %}
+    <p class="page-subtitle">
+      Current Project: <strong>{{ project.project_name }}</strong>
+    </p>
+  {% else %}
+    <p class="page-subtitle">
+      No project is currently available. Create a project before logging effort.
+    </p>
+  {% endif %}
 
   <form method="POST"
         action="{{ url_for('main.effort_logs') }}"
@@ -16,17 +25,40 @@
     <div class="effort-row effort-row-three">
       <div class="form-group">
         <label for="date">Date</label>
-        <input type="text" id="date" name="date" placeholder="2026-04-01" required>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          required
+          {% if not project %}disabled{% endif %}
+        >
       </div>
 
       <div class="form-group">
-        <label for="member">Team Member</label>
-        <input type="text" id="member" name="member" placeholder="Sarah Johnson" required>
+        <label for="team_member_id">Team Member</label>
+        <select
+          id="team_member_id"
+          name="team_member_id"
+          required
+          {% if not project or not members %}disabled{% endif %}
+        >
+          <option value="">Select Team Member</option>
+          {% for member in members %}
+            <option value="{{ member.team_member_id }}">
+              {{ member.member_name }}{% if member.member_role %} - {{ member.member_role }}{% endif %}
+            </option>
+          {% endfor %}
+        </select>
       </div>
 
       <div class="form-group">
         <label for="phase">Development Phase</label>
-        <select id="phase" name="phase" required>
+        <select
+          id="phase"
+          name="phase"
+          required
+          {% if not project %}disabled{% endif %}
+        >
           <option value="">Select Phase</option>
           <option value="Planning">Planning</option>
           <option value="Design">Design</option>
@@ -41,12 +73,28 @@
     <div class="effort-row effort-row-hours-task">
       <div class="form-group">
         <label for="hours">Hours Worked</label>
-        <input type="number" id="hours" step="0.1" name="hours" placeholder="Enter hours" required>
+        <input
+          type="number"
+          id="hours"
+          step="0.1"
+          min="0"
+          name="hours"
+          placeholder="Enter hours"
+          required
+          {% if not project %}disabled{% endif %}
+        >
       </div>
 
       <div class="form-group task-group">
         <label for="task">Task Description</label>
-        <input type="text" id="task" name="task" placeholder="Enter task description" required>
+        <input
+          type="text"
+          id="task"
+          name="task"
+          placeholder="Enter task description"
+          required
+          {% if not project %}disabled{% endif %}
+        >
       </div>
     </div>
 
@@ -58,12 +106,20 @@
       </div>
 
       <div class="form-actions">
-        <button type="reset" class="secondary-btn">Reset</button>
-        <button type="submit" class="primary-btn">Submit Entry</button>
+        <button type="reset" class="secondary-btn" {% if not project %}disabled{% endif %}>Reset</button>
+        <button type="submit" class="primary-btn" {% if not project or not members %}disabled{% endif %}>
+          Submit Entry
+        </button>
       </div>
     </div>
 
   </form>
+
+  {% if project and not members %}
+    <p class="empty-state-text">
+      Add at least one team member in Project Info before logging effort.
+    </p>
+  {% endif %}
 
   <h3 class="effort-history-title">Recent Effort History</h3>
 
@@ -75,22 +131,36 @@
           <th>Team Member</th>
           <th>Phase</th>
           <th>Hours</th>
-          <th>Description</th>
-          <th>Actions</th>
+          <th>Notes</th>
         </tr>
       </thead>
 
       <tbody>
-        {% for log in logs %}
-<tr>
-  <td>{{ log.date }}</td>
-  <td>{{ log.team_member }}</td> 
-  <td>{{ log.project_phase }}</td> 
-  <td>{{ log.hours_logged }}</td>
-  <td>{{ log.notes }}</td> 
-  <td><a href="#">Edit</a></td>
-</tr>
-{% endfor %}
+        {% if logs %}
+          {% for log in logs %}
+            <tr>
+              <td>{{ log.date }}</td>
+              <td>
+                {% set ns = namespace(member_name="Unknown Member") %}
+
+                {% for member in members %}
+                  {% if member.team_member_id|string == log.team_member_id|string %}
+                    {% set ns.member_name = member.member_name %}
+                  {% endif %}
+                {% endfor %}
+
+                {{ ns.member_name }}
+              </td>
+              <td>{{ log.project_phase }}</td>
+              <td>{{ log.hours_logged }}</td>
+              <td>{{ log.notes }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="5">No effort logs have been submitted yet.</td>
+          </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>

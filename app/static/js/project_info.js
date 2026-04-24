@@ -1,7 +1,9 @@
-
-
 function addMemberRow() {
     const container = document.getElementById("team-members-list");
+
+    if (!container) {
+        return;
+    }
 
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -17,6 +19,10 @@ function addMemberRow() {
 function addRiskRow() {
     const container = document.getElementById("risks-list");
 
+    if (!container) {
+        return;
+    }
+
     const row = document.createElement("tr");
     row.innerHTML = `
         <td><input type="text" name="risk_name[]" placeholder="Risk Name"></td>
@@ -26,6 +32,7 @@ function addRiskRow() {
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
                 <option value="High">High</option>
+                <option value="Critical">Critical</option>
             </select>
         </td>
 
@@ -47,6 +54,7 @@ function addRiskRow() {
 
 function removeRow(button) {
     const row = button.closest("tr");
+
     if (row) {
         row.remove();
     }
