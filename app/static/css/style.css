@@ -687,6 +687,14 @@ body {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+.effort-row-two {
+    grid-template-columns: 1fr 1fr;
+}
+
+.reports-second-filter-row {
+    margin-top: 18px;
+}
+
 .effort-row-hours-task {
     grid-template-columns: 0.38fr 1.62fr;
 }

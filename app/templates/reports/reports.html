@@ -17,63 +17,60 @@
     </p>
   {% endif %}
 
-  <form method="GET"
-        action="{{ url_for('main.reports') }}"
-        class="reports-filter-form">
+<form method="GET"
+      action="{{ url_for('main.reports') }}"
+      class="reports-filter-form">
 
-    <div class="effort-row effort-row-three">
-      <div class="form-group">
-        <label for="start_date">Start Date</label>
-        <input type="date"
-               id="start_date"
-               name="start_date"
-               value="{{ selected_start_date }}">
-      </div>
-
-      <div class="form-group">
-        <label for="end_date">End Date</label>
-        <input type="date"
-               id="end_date"
-               name="end_date"
-               value="{{ selected_end_date }}">
-      </div>
-
-      <div class="form-group">
-        <label for="phase">Project Phase</label>
-        <select id="phase" name="phase">
-          <option value="">All Phases</option>
-          <option value="Planning" {% if selected_phase == "Planning" %}selected{% endif %}>Planning</option>
-          <option value="Design" {% if selected_phase == "Design" %}selected{% endif %}>Design</option>
-          <option value="Implementation" {% if selected_phase == "Implementation" %}selected{% endif %}>Implementation</option>
-          <option value="Testing" {% if selected_phase == "Testing" %}selected{% endif %}>Testing</option>
-          <option value="Documentation" {% if selected_phase == "Documentation" %}selected{% endif %}>Documentation</option>
-        </select>
-      </div>
+  <div class="effort-row effort-row-two">
+    <div class="form-group">
+      <label for="start_date">Start Date</label>
+      <input type="date"
+             id="start_date"
+             name="start_date"
+             value="{{ selected_start_date }}">
     </div>
 
-    <div class="effort-row effort-row-three">
-      <div class="form-group">
-        <label for="member">Team Member</label>
-        <select id="member" name="member">
-          <option value="">All Team Members</option>
-          {% for member_name in members %}
-            <option value="{{ member_name }}" {% if selected_member == member_name %}selected{% endif %}>
-              {{ member_name }}
-            </option>
-          {% endfor %}
-        </select>
-      </div>
+    <div class="form-group">
+      <label for="end_date">End Date</label>
+      <input type="date"
+             id="end_date"
+             name="end_date"
+             value="{{ selected_end_date }}">
+    </div>
+  </div>
 
-      <div class="form-group form-actions-inline">
-        <label>&nbsp;</label>
-        <div class="form-actions">
-          <button type="submit" class="primary-btn">Apply Filters</button>
-          <a href="{{ url_for('main.reports') }}" class="secondary-btn">Clear</a>
-        </div>
-      </div>
+  <div class="effort-row effort-row-two reports-second-filter-row">
+    <div class="form-group">
+      <label for="member">Team Member</label>
+      <select id="member" name="member">
+        <option value="">All Team Members</option>
+        {% for member_name in members %}
+          <option value="{{ member_name }}" {% if selected_member == member_name %}selected{% endif %}>
+            {{ member_name }}
+          </option>
+        {% endfor %}
+      </select>
     </div>
 
-  </form>
+    <div class="form-group">
+      <label for="phase">Project Phase</label>
+      <select id="phase" name="phase">
+        <option value="">All Phases</option>
+        <option value="Planning" {% if selected_phase == "Planning" %}selected{% endif %}>Planning</option>
+        <option value="Design" {% if selected_phase == "Design" %}selected{% endif %}>Design</option>
+        <option value="Implementation" {% if selected_phase == "Implementation" %}selected{% endif %}>Implementation</option>
+        <option value="Testing" {% if selected_phase == "Testing" %}selected{% endif %}>Testing</option>
+        <option value="Documentation" {% if selected_phase == "Documentation" %}selected{% endif %}>Documentation</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="primary-btn">Apply Filters</button>
+    <a href="{{ url_for('main.reports') }}" class="secondary-btn">Clear</a>
+  </div>
+
+</form>
 
   <h3>Summary Metrics</h3>
 
