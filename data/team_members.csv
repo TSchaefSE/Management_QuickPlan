@@ -4,3 +4,4 @@ team_member_id,project_id,member_name,member_role,member_email
 3,1,Charlie,Developer,charlie@company.com
 4,1,Diana,Tester,diana@company.com
 5,1,Evan,Technical Writer,evan@company.com
+6,2,Gabe Rivera,Project Manager,gabe@company.com

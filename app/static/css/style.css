@@ -70,11 +70,71 @@ body {
 }
 
 #project-select {
-    padding: 4px 6px;
+    height: 32px;
+    min-width: 220px;
+    max-width: 320px;
+    padding: 4px 10px;
     font-size: 13px;
-    width: 100%;
     color: #d1d5db;
     background-color: #243252;
+    border-radius: 6px;
+    border: 1px solid #3f5278;
+}
+
+.project-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.project-select-form,
+.project-action-form {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.project-select-form {
+    gap: 6px;
+}
+
+.project-select-form label {
+    margin: 0;
+}
+
+.project-icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid #3f5278;
+    background: #2f4168;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-icon-btn:hover {
+    background: #3d5485;
+}
+
+.project-icon-btn.danger {
+    background: #7a2f2f;
+    border-color: #8f3d3d;
+}
+
+.project-icon-btn.danger:hover {
+    background: #9a3b3b;
+}
+
+.project-icon-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .topbar-btn {
